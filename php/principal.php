@@ -96,6 +96,7 @@
         
         //iniciamos sesion en la base de datos
         
+        
         //$db_name = "healthyjunio";
         //$mysql_user = "root";
         //$mysql_pass = "Joseroot01";
