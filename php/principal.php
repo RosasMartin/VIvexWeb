@@ -103,6 +103,7 @@
         //$var_res = "";
         //$conexion=mysqli_connect($server_name,$mysql_user,$mysql_pass,$db_name);
     
+
         //consultamos Provincias, ciudades e intituciones disponibles de acuerdo al valor "status"
         
 
