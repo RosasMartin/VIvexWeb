@@ -2,10 +2,10 @@ html {
     box-sizing: border-box;
     min-height: 100%;
     min-width: 100%;
-    font-size: 62.5%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 2vh;
+    font-size: 1rem;
     text-decoration: none;
+    
 }
 
 *,
@@ -53,6 +53,25 @@ html {
 }
 
 @media (min-width: 768px){
+    html {
+        box-sizing: border-box;
+        min-height: 100%;
+        min-width: 100%;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: .75rem;
+        text-decoration: none;
+        line-height: 1;
+        
+    }
+    
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+    
+
+
     .header{
         display: flex;
         height: 100%;
@@ -75,7 +94,7 @@ html {
     }
     .header .barra .nav a{
         padding: 0 2vw;
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -91,7 +110,7 @@ html {
 }
 
 .footer p{
-    font-size: .7rem;
+    font-size: 1rem;
 }
 
 /** Mobile mode **/
@@ -367,8 +386,9 @@ main .consultar{
         grid-template-columns: .7fr 2fr 2fr;
         grid-template-rows: 1fr 1fr;
         background-color: #8C4848;
-    
+        height: 90vh;
         color: #B7B7B7;
+        
     }
     /** End Main **/
 
@@ -377,13 +397,17 @@ main .consultar{
         background-color: #441723;
         width: 15vw;
         grid-row: 1 / 3;
+        line-height: 1.5;
         
     }
 
     main .controles p{
         text-align: center;
         color: white;
-        font-size: 2vh;
+        font-size: 1.5vh;
+        margin-bottom: .5vh;
+        margin-top: .5vh;
+        
     }
 
     /** Genero **/
@@ -391,6 +415,8 @@ main .consultar{
     display: flex;
     margin-left: 1vw;
     margin-right: 1vw;
+    margin-top: 2vh;
+    margin-bottom: .5vh;
     align-items: center;
     align-content: center;
     justify-content: space-between;
@@ -419,7 +445,7 @@ main .consultar{
     hr{
         margin-left: 1vw;
         margin-right: 1vw;
-        height: .7vh;
+        height: .5vh;
         background-color: white;
         border: none;
         border-radius: 1rem;
@@ -476,6 +502,7 @@ main .consultar{
     .edades-rango .slider{
         margin-left: 1vw;
         margin-right: 1vw;
+        margin-top: 2vh;
         border-radius: 1rem;
         background-color: white;
         margin-bottom: 2vh;
@@ -549,7 +576,7 @@ main .consultar{
     }
 
     .archivos .enlaces img{
-        height: 7vh;
+        height: 4vh;
         margin-left: 1vw;
         margin-right: 1vw;
     }
@@ -610,8 +637,7 @@ main .mapa .barra-mapa{
     align-items: center;
     align-content: center;
 }
-
-main .mapa .contenedor-mapa{ /** Google maps **/
+main .mapa .contenedor-mapa{
 
 }
 main .mapa .contenedor-mapa .grafico{ /** Highcharts **/
@@ -690,7 +716,7 @@ main .tendencias .tendencia-div .contenedor-tendencias .secundario .contenido{
 }
 
 main .tendencias .tendencia-div .contenedor-tendencias .secundario .contenido img{
-    height: 5vh;
+    height: 8vh;
     margin-left: 1vw;
     margin-right: 1vw;
 }
@@ -782,21 +808,30 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
         margin-right: 1vh;
         margin-bottom: 1vh;
     }
-
+    main .porcentaje-grafico .barra-porcentaje{
+        display: grid;
+        background-color: #551919;
+        height: 6vh;
+        align-items: center;
+        align-content: center;
+        
+    }
+    
     main .porcentaje-grafico .grafico{/** Highcharts **/
-        margin-top: 9vh;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
         
     }
     main .porcentaje-grafico .grafico .chart-container{
-        margin-left: .1vw;
+        margin-bottom: 0;
       }
     main .porcentaje-grafico .grafico .chart-container canvas{
-        height: 40vh;
-        width: 40vw;    
+        height: 32vh;
+            
        }
     /** End Gráfico de Porcentajes **/
 
-    /** Mapa **/
+    /** historial mediciones **/
     main .mapa{
         margin-top: 1vh;
         margin-left: 1vh;
@@ -805,9 +840,16 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
         grid-row: 2 / 3;
         grid-column: 3 / 4;
     }
-
+    main .mapa .barra-mapa{
+        display: grid;
+        background-color: #551919;
+        height: 6vh;
+        align-items: center;
+        align-content: center;
+    }
     main .mapa .contenedor-mapa .grafico{/** Highcharts **/
-        margin-top: 10vh;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
         
     }
     main .mapa .contenedor-mapa .grafico .chart-container{
@@ -815,11 +857,11 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
         margin-right: .5vw;
       }
     main .mapa .contenedor-mapa .grafico .chart-container canvas{
-        height: 40vh;
-        width: 38vw;    
+        height: 32vh;
+           
        }
     
-    /** End Mapa **/
+    /** End historial mediciones **/
 
     /** Tendencias **/
     main .tendencias{
@@ -840,7 +882,7 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
     main .tendencias .barra-tendencias{
         display: grid;
         background-color: #551919;
-        height: 8vh;
+        height: 6vh;
         align-items: center;
         align-content: center;
     }
@@ -849,6 +891,7 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
         display: grid;
         grid-template-rows: .25fr 4fr;
         color: #B70404;
+        font-size: .8rem;
     }
     
     main .tendencias .tendencia-div .contenedor-tendencias{
@@ -862,7 +905,7 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
     }
 
     main .tendencias .tendencia-div .contenedor-tendencias .principal img{
-        height: 20vh;
+        height: 14vh;
         
     }
     main .tendencias .tendencia-div .contenedor-tendencias .principal .indicador-principal{
@@ -877,12 +920,12 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
 
     main .tendencias .tendencia-div .contenedor-tendencias .secundario .anterior{
         display: grid;
-        grid-template-rows: .25fr 2fr;
+        grid-template-rows: .25fr 1fr;
     }
 
     main .tendencias .tendencia-div .contenedor-tendencias .secundario .actual{
         display: grid;
-        grid-template-rows: .25fr 2fr;
+        grid-template-rows: .25fr 1fr;
     }
 
     main .tendencias .tendencia-div .contenedor-tendencias .secundario .contenido{
@@ -892,7 +935,7 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
     }
 
     main .tendencias .tendencia-div .contenedor-tendencias .secundario .contenido img{
-        height: 8vh;
+        height: 6vh;
         margin-left: 1vw;
         margin-right: 1vw;
     }
@@ -922,13 +965,13 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
     main .busqueda-resultado .barra-busqueda-resultado{
         display: grid;
         background-color: #551919;
-        height: 8vh;
+        height: 6vh;
         align-items: center;
         align-content: center;
     }
 
     main .busqueda-resultado .contenedor-busqueda-resultado{
-        padding-top: 2vh;
+        padding-top: 1vh;
     }
 
     main .busqueda-resultado .contenedor-busqueda-resultado .item-resultado{
@@ -939,15 +982,16 @@ main .busqueda-resultado .indicadores-busqueda-resultado .total-alumnos p{
     }
 
     main .busqueda-resultado .contenedor-busqueda-resultado .item-resultado p{
-        font-size: 2.5vh;
+        font-size: 2vh;
         margin-top: 1vh;
         margin-bottom: 1vh;
+        line-height: .5;
     }
 
     main .busqueda-resultado .indicadores-busqueda-resultado{
         display: flex;
         background-color: #551919;
-        height: 8vh;
+        height: 6vh;
         align-items: center;
         align-content: center;
         justify-content: space-between;
