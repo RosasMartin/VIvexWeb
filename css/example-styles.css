@@ -16,17 +16,18 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     display: none;
     overflow-y: scroll;
-    height: 15vh;
+    height: 10vh;
     border-radius: .2rem;
     color: #ad2900;
     font-weight: bold;
     font-size: 1rem;
     margin-left: 10vw;
+    
 }
 
 .multi-select-menuitem {
     display: block;
-    font-size: 0.875em;
+    font-size: 1rem;
     padding: 0.6em 1em 0.6em 30px;
     white-space: nowrap;
     width: 80vw;
@@ -148,16 +149,16 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         display: none;
         overflow-y: scroll;
-        height: 15vh;
+        height: 14vh;
         border-radius: .2rem;
         color: #ad2900;
         font-weight: bold;
-        font-size: 1rem;
+        font-size: 1.7vh;
     }
 
     .multi-select-menuitem {
         display: block;
-        font-size: 0.875em;
+        font-size: 1.5vh;
         padding: 0.6em 1em 0.6em 30px;
         white-space: nowrap;
         width: 20vw;
@@ -222,7 +223,7 @@
         justify-content: center;
         color: #ad2900;
         font-weight: bold;
-        font-size: 1rem;
+        font-size: 1.7vh;
     }
 
     .multi-select-button:after {

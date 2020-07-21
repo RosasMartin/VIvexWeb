@@ -111,8 +111,8 @@ if(isset($_POST['provincias'])):
             //echo $cantidad_dni;
             //echo "\n";
 
-            $seisMesesAtras = time() - (4 * 4 * 7 * 24 * 60 * 60);
-                    // 7 días; 24 horas; 60 minutos; 60 segundos
+            $seisMesesAtras = time() - (6 * 4 * 7 * 24 * 60 * 60);
+            //6meses; 4semenas; 7 días; 24 horas; 60 minutos; 60 segundos
             //echo 'Ahora: '. date('Y-m-d') ."\n";
             //echo 'Ahora: '. time()."\n";
             //echo '6 Meses Atras: '. date('Y-m-d', $seisMesesAtras) ."\n";
@@ -148,7 +148,7 @@ if(isset($_POST['provincias'])):
         
             //imc 6 meses atras
             
-            if($dni!="" && ($_POST["masculino"]!=""||$_POST["femenino"]!="")){
+            if($imc2!="" && $dni!="" && ($_POST["masculino"]!=""||$_POST["femenino"]!="")){
                 $e=0;
                 while($e!=$cantidad_dni){
                     
@@ -304,7 +304,7 @@ if(isset($_POST['provincias'])):
             $array4 = explode(",", $imc2);
             $cantidad_dni4=count($array4);
 
-            if($dni!="" && ($_POST["masculino"]!=""||$_POST["femenino"]!="")){
+            if($imc2!="" && $dni!="" && ($_POST["masculino"]!=""||$_POST["femenino"]!="")){
                 while($i!=$cantidad_dni4){
                     $u=$user->buscar_maximo("alumnos_salud",'alumnos_dni='.$array4[$i]);
                     $imc6="";
@@ -443,8 +443,10 @@ if(isset($_POST['provincias'])):
                 $bad=($ro1+$ro2+$ro3+$rs+$rda+$rdm+$rds);
                 
             }
-            if($dni!=""){
-                if($bad_2<=$bad){
+
+            
+            if($imc2!="" && $dni!=""){
+                if(intval($bad_2)>=intval($bad)){
                     echo"
                     <script>
                     document.getElementById('tendencia_texto').innerHTML = 'Tendencia Positiva';
@@ -454,7 +456,7 @@ if(isset($_POST['provincias'])):
                     </script>
                     ";
                 }
-                if($bad_2>$bad){
+                if(intval($bad_2)<intval($bad)){
                     echo"
                     <script>
                     document.getElementById('tendencia_texto').innerHTML = 'Tendencia Negativa';

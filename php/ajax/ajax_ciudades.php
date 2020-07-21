@@ -8,6 +8,8 @@ echo "
 
 if(isset($_POST['id'])):
     
+    //echo "<option id='all_ciud' value='0' onchange='allciud();'>TODAS</option>";
+
 	require "conexion.php";
     $user = new vivexDB();
 
@@ -18,7 +20,10 @@ if(isset($_POST['id'])):
          
     foreach ($u as $key => $value)
     $html.="<option value='".$value['id_ciudad']."'>".$value['ciudad']."</option>";
-        
+    
+    if($html!=""){
+        echo "<option id='all_ciud' value='0' onchange='allciud();'>TODAS</option>";
+    }
     echo $html;
     	
 endif;

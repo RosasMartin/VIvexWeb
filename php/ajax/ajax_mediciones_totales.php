@@ -271,7 +271,7 @@ if($dni!=""){
     //echo $ene." ".$feb." ".$mar." ".$abr." ".$may." ".$jun." ".$jul." ".$ago." ".$sep." ".$oct." ".$nov." ".$dic;
 
     echo "
-    <canvas id='myChart2' height='370vh'></canvas>
+    <canvas id='myChart2' height='240vh'></canvas>
     <script>
         var ctx= document.getElementById('myChart2').getContext('2d');
         var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);

@@ -281,39 +281,51 @@ if(isset($_POST['provincias'])):
 
         $resto=100-($ro1+$ro2+$ro3+$rs+$rda+$rdm+$rds+$rn);
 
-        echo "<canvas id='myChart' height='370vh'></canvas>
+        echo "<canvas id='myChart' height='240vh'></canvas>
             <script>
                 var ctx= document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
-                    type:'doughnut',
+                    type:'bar',
                     data:{
-                        labels:['Obesidad Tipo 1 ($ro1%)','Obesidad Tipo 2 ($ro2%)' ,'Obesidad Tipo 3 ($ro3%)','Sobrepeso ($rs%)','Delgadez Aceptable ($rda%)','Delgadez Moderada ($rdm%)','Delgadez Severa ($rds%)','Normal ($rn%)','Resto ($resto%)'],
+                        labels:['Obes Tipo 1','Obes Tipo 2' ,'Obes Tipo 3','Sobrepeso','Delg Aceptable','Delg Moderada','Delg Severa','Normal','Resto'],
                         datasets:[{
                             label:'Porcentaje',
                             data:['$ro1','$ro2','$ro3','$rs','$rda','$rdm','$rds','$rn','$resto'],
                             backgroundColor:['#d500f9','#f50057','#ff1744','#651fff','#c6ff00','#ffc400','#ff3d00','#00e676','#B7B7B7'],
-                            borderWidth:0
+                            borderWidth:0.5
                         }]
                     },
+                    
                     options:{
                         responsive: true,
                         maintainAspectRatio: false,
                         yAxisID:false,
-                        scales:{
-                            yAxes:[{
-                                ticks:{
-                                    beginAtZero:true
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    // Include a dollar sign in the ticks
+                                    callback: function(value, index, values) {
+                                        return value + '%';
+                                    }
                                 }
                             }]
                         },
+                        tooltips: {
+                            callbacks: {
+                              label: function(tooltipItem, data) {
+                                return data['datasets'][0]['data'][tooltipItem['index']] + '%';
+                              }
+                            }
+                          },
                         legend: {
-                                align: 'center',
+                                display: false,
+                                align: 'start',
                                 position:'right',
                                 labels: {
                                     // This more specific font property overrides the global property
                                     fontColor: 'white',
-                                    fontSize: 12,
-                                    boxWidth: 10
+                                    fontSize: 8,
+                                    boxWidth: 9
                                 }
                         }
                     }
@@ -324,15 +336,15 @@ if(isset($_POST['provincias'])):
                 document.getElementById('gf').innerHTML =$femeninos;
                 document.getElementById('gm').innerHTML =$masculinos;
                 document.getElementById('totalalumnos').innerHTML =$cantidad_dni;
-                document.getElementById('ro1').innerHTML ='($ro1 %) - $ro1_alum';
-                document.getElementById('ro2').innerHTML ='($ro2 %) - $ro2_alum';
-                document.getElementById('ro3').innerHTML ='($ro3 %) - $ro3_alum';
-                document.getElementById('rda').innerHTML ='($rda %) - $rda_alum';
-                document.getElementById('rdm').innerHTML ='($rdm %) - $rdm_alum';
-                document.getElementById('rds').innerHTML ='($rds %) - $rds_alum';
-                document.getElementById('rn').innerHTML ='($rn %) - $rn_alum';
-                document.getElementById('rs').innerHTML ='($rs %) - $rs_alum';
-                document.getElementById('nn').innerHTML ='$nn';
+                document.getElementById('ro1').innerHTML ='($ro1 %) - $ro1_alum alumnos';
+                document.getElementById('ro2').innerHTML ='($ro2 %) - $ro2_alum alumnos';
+                document.getElementById('ro3').innerHTML ='($ro3 %) - $ro3_alum alumnos';
+                document.getElementById('rda').innerHTML ='($rda %) - $rda_alum alumnos';
+                document.getElementById('rdm').innerHTML ='($rdm %) - $rdm_alum alumnos';
+                document.getElementById('rds').innerHTML ='($rds %) - $rds_alum alumnos';
+                document.getElementById('rn').innerHTML ='($rn %) - $rn_alum alumnos';
+                document.getElementById('rs').innerHTML ='($rs %) - $rs_alum alumnos';
+                document.getElementById('nn').innerHTML ='$nn alumnos';
                 
             </script>
             ";

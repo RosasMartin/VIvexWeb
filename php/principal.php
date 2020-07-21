@@ -32,7 +32,7 @@
         max: 120,
         values: [ 6, 99 ],
         slide: function( event, ui ) {
-            $( "#amount" ).val( "Min:" + ui.values[ 0 ] + " - Max:" + ui.values[ 1 ] );
+            $( "#amount" ).val( "Min: " + ui.values[ 0 ] + " - Max: " + ui.values[ 1 ] );
             consultarDatos();
         }
         });
@@ -141,7 +141,7 @@
 
         <!-- Controles -->
         <div class="controles">
-            <p>Filtros de Búsqueda</p>
+            <!--<p style="margin-top: 2vh;">Filtros de Búsqueda</p>-->
   
             <div class="genero">
                 <p class="title">Genero</p>
@@ -223,6 +223,7 @@
                         <span class="checkmark"></span>
                     </label>
                 </div>
+                    
             </div>
             <!-- Scrpit lectura de checkbox riesgos y genero-->
             <script>
@@ -358,7 +359,7 @@
             <hr>
                 <div class="edades-rango">
                     <p>
-                    <label for="amount">Rango de edades</label>
+                    <!--<label for="amount">Rango de edades</label>-->
                     <input type="text" id="amount" readonly > 
                     </p>
         
@@ -367,9 +368,14 @@
                 </div>
             <hr>
             <div id="sitios" class="sitios">
+                <!-- Paises -->
+
+                
+                <!-- End Paises --> 
                 <!-- Provincias -->
                 <form class="demo-example">
                     <select id="provincias" name="provincias" multiple onchange="ddselect();">
+                        <option id="all_prov" value="0" onchange="allprov();">TODAS</option>
                         <?php 
                             if($status=="90"||$status=="80"){
                                 $provincias=$user->buscar("provincias","1");
@@ -378,7 +384,7 @@
                             }
                             foreach($provincias as $provincias):
                         ?>
-                        <option value="<?php echo $provincias['id_provincia'] ?>"><?php echo $provincias['provincia'] ?></option>
+                        <option id="prov_opt" value="<?php echo $provincias['id_provincia'] ?>"><?php echo $provincias['provincia'] ?></option>
                         <?php 
                             endforeach;
                         ?>
@@ -397,39 +403,88 @@
                         });
                     });
 
-                    function ddselect() {
-                        
-                        var count = $("#provincias :selected").length;
-                        //document.getElementById("show2").innerHTML = count;
-                        $(function() {
-                            $('#provincias').multiSelect({
-                                'allText': 'Provincias',
+                    function allprov(){
+                        console.log("Todas las Provincias");
+                        var provall = document.getElementById('all_prov');
+                        var allprov = $("#provincias").val();
 
-                            });
-                        });
-
-                        var selected2 = [];
-                        for (var option of document.getElementById('provincias').options) {
-                            if (option.selected) {
-                                selected2.push(option.value);
-                                //mostramos elementos seleccionados con el id= show
-                                //document.getElementById("show").innerHTML = selected2;
-                                
-                                //Busqueda de ciudades de acuerdo a lo seleccionado en provincias
-                                
-                                //console.log(selected2);
-                                consultarDatos();
-
+                        if(provall.selected==true){
+                            
+                            $('#provincias option').prop('selected', true);
+                            document.getElementById('provincias').dispatchEvent(new Event('change'));
+                            //$('#provincias option').attr("checked");
+                            consultarDatos(); 
                             }
-                            if ($("#provincias :selected").length == 0) {
-                                //document.getElementById("show").innerHTML = "-";
-                            }
+                            else{
+                                $('#provincias option').prop('selected', false);
+                                document.getElementById('provincias').dispatchEvent(new Event('change'));
+                                consultarDatos();  
                         }
+
                         
-                       
+                        
+                    }
+
+                    function ddselect() {
+                        var provall = document.getElementById('all_prov');
+                        
+                            var select = $("#provincias").val();
+                            
+                            
+                            var count = $("#provincias :selected").length;
+                            //document.getElementById("show2").innerHTML = count;
+                            $(function() {
+                                $('#provincias').multiSelect({
+                                    'allText': 'Provincias',
+
+                                });
+                            });
+
+                            var selected2 = [];
+                            for (var option of document.getElementById('provincias').options) {
+                                if (option.selected) {
+                                    selected2.push(option.value);
+                                    //mostramos elementos seleccionados con el id= show
+                                    //document.getElementById("show").innerHTML = selected2;
+                                    
+                                    //Busqueda de ciudades de acuerdo a lo seleccionado en provincias
+                                    
+                                    //console.log(selected2);
+                                    if(provall.selected==false){
+                                        consultarDatos();
+                                    }
+
+                                }
+                                if ($("#provincias :selected").length == 0) {
+                                    //document.getElementById("show").innerHTML = "-";
+                                }
+                                if(option.selected==false){
+                                    consultarDatos();
+                                }
+                            }
+                            
+                            var opt_prov = document.getElementById('prov_opt');
+
+                            if(opt_prov.selected){
+                                
+                                //$('#provincias option').prop('selected', true);
+                                //document.getElementById('provincias').dispatchEvent(new Event('change'));
+                                //$('#provincias option').attr("checked");
+                                    
+                                }
+                                else{
+                                    //var provall = document.getElementById('all_prov');
+                                    //$(provall).prop('selected', false);
+                                    //provall.dispatchEvent(new Event('change'));
+                                    if(provall.selected==false){
+                                        consultarDatos();
+                                    }
+
+                            } 
+                        
                     }
                 </script>
-                 <!-- Enc Provincias -->
+                 <!-- End Provincias -->
                  
                  <!-- Ciudades -->
                 <div id="ciudades_recargar">
@@ -583,8 +638,6 @@
                     })
                 </script>
             </div>
-           
-            <hr>
 
             <!-- Obtencion de Estadisticas -->
             <!--
@@ -736,7 +789,7 @@
                                     alum_exit=1;
                                 }
                             });
-                        
+                            
                     }); 
 
                     //tendencias
@@ -776,6 +829,33 @@
                                 
                             }
                         });
+
+                        
+                        
+                        if(parametrosProvincias=="null"){
+                            document.getElementById('tendencia_texto').innerHTML = 'Sin Tendencia';
+                            document.getElementById('tendencia_texto').style.color = '#B70404';
+                            document.getElementById('indicador-principal').style.transform = 'rotate(-1800deg)';
+                            document.getElementById('indicador-principal').src='../img/error.png';
+                            document.getElementById('anterior-good').innerHTML = '0 %';
+                            document.getElementById('anterior-bad').innerHTML = '0 %';
+                            document.getElementById('actual-good').innerHTML = '0 %';
+                            document.getElementById('actual-bad').innerHTML = '0 %';
+
+                            document.getElementById('gf').innerHTML ='0';
+                            document.getElementById('gm').innerHTML ='0';
+                            document.getElementById('totalalumnos').innerHTML ='0';
+                            document.getElementById('ro1').innerHTML ='(0 %) - 0';
+                            document.getElementById('ro2').innerHTML ='(0 %) - 0';
+                            document.getElementById('ro3').innerHTML ='(0 %) - 0';
+                            document.getElementById('rda').innerHTML ='(0 %) - 0';
+                            document.getElementById('rdm').innerHTML ='(0 %) - 0';
+                            document.getElementById('rds').innerHTML ='(0 %) - 0';
+                            document.getElementById('rn').innerHTML ='(0 %) - 0';
+                            document.getElementById('rs').innerHTML ='(0 %) - 0';
+                            document.getElementById('nn').innerHTML ='0';
+                            
+                        }
                     
                     }); 
 
@@ -824,7 +904,7 @@
                 }
             </script>
 
-           
+            <hr>
             <!-- Obtencion de Archivos -->
                 <div class="archivos">
                     <p>Descargas</p>
@@ -837,7 +917,7 @@
                         </a>
                     </div>
                 </div>
-
+            
         </div>
         <!-- End controles-->
 
@@ -848,39 +928,51 @@
             </div>
             <div class="grafico">
                 <div id="chart-container" class="chart-container">
-                    <canvas id="myChart" height="370vh"></canvas>
+                    <canvas id="myChart" height="240vh"></canvas>
                     <script>
                         var ctx= document.getElementById("myChart").getContext("2d");
                         var myChart = new Chart(ctx, {
-                            type:"doughnut",
+                            type:"bar",
                             data:{
                                 labels:['Obesidad Tipo 1','Obesidad Tipo 2','Obesidad Tipo 3','Sobrepeso','Delgadez Aceptable','Delgadez Moderada','Delgadez Severa','Normal','Resto'],
                                 datasets:[{
                                     label:'Porcentaje',
                                     data:[0,0,0,0,0,0,0,0,0],
                                     backgroundColor:['#d500f9','#f50057','#ff1744','#651fff','#c6ff00','#ffc400','#ff3d00','#00e676','#B7B7B7'],
-                                    borderWidth:0
+                                    borderWidth:0.5
                                 }]
                             },
                             options:{
                                 responsive: true,
                                 maintainAspectRatio: false,
                                 yAxisID:false,
-                                scales:{
-                                    yAxes:[{
-                                        ticks:{
-                                            beginAtZero:true
+                                scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                // Include a dollar sign in the ticks
+                                                callback: function(value, index, values) {
+                                                    return value + '%';
+                                                },
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                },
+                                tooltips: {
+                                    callbacks: {
+                                        label: function(tooltipItem, data) {
+                                            return 'Porcentaje' + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + '%';
                                         }
-                                    }]
+                                    }
                                 },
                                 legend: {
-                                        align: 'center',
+                                        display: false,
+                                        align: 'start',
                                         position:'right',
                                         labels: {
                                             // This more specific font property overrides the global property
                                             fontColor: 'white',
-                                            fontSize: 12,
-                                            boxWidth: 10
+                                            fontSize: 8,
+                                            boxWidth: 9
                                         }
                                 }
                             }
@@ -901,7 +993,7 @@
                 <div class="grafico">
                     <div id="chart-container2" class="chart-container">
                     
-                        <canvas id="myChart2" height="370vh"></canvas>
+                        <canvas id="myChart2" height="240vh"></canvas>
                         <script>
                             var ctx= document.getElementById("myChart2").getContext("2d");
                             var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
