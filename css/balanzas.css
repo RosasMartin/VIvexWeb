@@ -1,0 +1,191 @@
+html {
+    box-sizing: border-box;
+    min-height: 100%;
+    min-width: 100%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    text-decoration: none;
+    
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+/** Header **/
+.header {
+    background-color: #B7B7B7;
+    display: grid;
+    padding: 0;
+    justify-content: center;
+}
+
+.header .links{
+    display: grid;
+    padding: 0;
+    justify-content: center;
+}
+
+.header .barra .nav{
+    padding: 0;
+    display: grid;
+    text-align: center;   
+}
+
+.header .barra .nav a{
+    margin: 0;
+    padding: 3vh 0;
+    text-decoration: none;
+    color: #373737; 
+    font-size: 2vh;
+}
+
+.header .barra .nav a:hover{
+    color: #AD2900;
+}
+
+.header img{
+    height: 10vh;
+    padding: 2vh 0;
+}
+
+.header .barra ul{
+    list-style:none;
+    
+}
+
+.header .barra .nav li a {
+    background-color:#B7B7B7;
+    color:#373737;
+    text-decoration:none;
+    padding:14px 17px;
+    display:flex;
+    
+}
+
+.header .barra .nav li a:hover {
+    background-color:#B7B7B7;
+}
+
+.header .barra .nav li ul {
+    display:none;
+    position:absolute;
+    min-width:140px;
+    
+}
+
+.header .barra .nav li:hover > ul {
+    display:grid;
+    
+}
+
+
+@media (min-width: 768px){
+    html {
+        box-sizing: border-box;
+        min-height: 100%;
+        min-width: 100%;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: .75rem;
+        text-decoration: none;
+        line-height: 1;
+        
+    }
+    
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+    
+
+
+    .header{
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    .header .links{
+        display: flex;
+        margin-right: auto;
+    }
+    .header img{
+        padding: 2vh 4vw;
+    }
+    .header .barra{
+        margin-left: auto;
+        margin-right: 4vw;
+    }
+    .header .barra .nav{
+        display: flex;
+    }
+    .header .barra .nav a{
+        padding: 0 2vw;
+        font-size: 1.2rem;
+    }
+
+    
+    .header .barra ul{
+        list-style:none;
+        
+    }
+
+    .header .barra .nav li a {
+        background-color:#B7B7B7;
+        color:#373737;
+        text-decoration:none;
+        padding:14px 17px;
+        display:flex;
+        
+    }
+    
+    .header .barra .nav li a:hover {
+        background-color:#B7B7B7;
+    }
+
+    .header .barra .nav li ul {
+        display:none;
+        position:absolute;
+        min-width:140px;
+        
+    }
+    
+    .header .barra .nav li:hover > ul {
+        display:grid;
+        
+    }
+    
+    
+
+}
+/** End Header**/
+
+/** Footer **/
+
+.footer{
+    display: grid;
+    background-color: #B7B7B7;
+    justify-content: center;
+    padding: 2vh 0;
+}
+
+.footer p{
+    font-size: 1rem;
+}
+/** End Footer **/
+
+
+/** Main **/
+main{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: #8C4848;
+    height: 90vh;
+    color: #B7B7B7;
+    
+}
+/** End Main **/

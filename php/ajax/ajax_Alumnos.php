@@ -280,6 +280,9 @@ if(isset($_POST['provincias'])):
         }
 
         $resto=100-($ro1+$ro2+$ro3+$rs+$rda+$rdm+$rds+$rn);
+        if($resto<0){
+            $resto=0;
+        }
 
         echo "<canvas id='myChart' height='240vh'></canvas>
             <script>
@@ -287,11 +290,11 @@ if(isset($_POST['provincias'])):
                 var myChart = new Chart(ctx, {
                     type:'bar',
                     data:{
-                        labels:['Obes Tipo 1','Obes Tipo 2' ,'Obes Tipo 3','Sobrepeso','Delg Aceptable','Delg Moderada','Delg Severa','Normal','Resto'],
+                        labels:['Obes Tipo 3','Obes Tipo 2' ,'Obes Tipo 1','Sobrepeso','Normal','Delg Aceptable','Delg Moderada','Delg Severa','Resto'],
                         datasets:[{
                             label:'Porcentaje',
-                            data:['$ro1','$ro2','$ro3','$rs','$rda','$rdm','$rds','$rn','$resto'],
-                            backgroundColor:['#d500f9','#f50057','#ff1744','#651fff','#c6ff00','#ffc400','#ff3d00','#00e676','#B7B7B7'],
+                            data:['$ro3','$ro2','$ro1','$rs','$rn','$rda','$rdm','$rds','$resto'],
+                            backgroundColor:['#AD4F9A','#ED1C24','#EB6419','#EDE537','#82BC57','#25A5DD','#87D1D1','#DFCCE4','#B7B7B7'],
                             borderWidth:0.5
                         }]
                     },
@@ -303,10 +306,13 @@ if(isset($_POST['provincias'])):
                         scales: {
                             yAxes: [{
                                 ticks: {
+                                    
                                     // Include a dollar sign in the ticks
                                     callback: function(value, index, values) {
                                         return value + '%';
-                                    }
+                                    },
+                                    beginAtZero:true                                   
+                                    
                                 }
                             }]
                         },
