@@ -15,7 +15,7 @@ html {
 }
 
 /** Header **/
-
+/** Arreglar vista mobile **/
 .header {
     background-color: #B7B7B7;
     display: grid;
@@ -51,6 +51,37 @@ html {
     height: 10vh;
     padding: 2vh 0;
 }
+
+.header .barra ul{
+    list-style:none;
+    
+}
+
+.header .barra .nav li a {
+    background-color:#B7B7B7;
+    color:#373737;
+    text-decoration:none;
+    padding:14px 17px;
+    display:flex;
+    
+}
+
+.header .barra .nav li a:hover {
+    background-color:#B7B7B7;
+}
+
+.header .barra .nav li ul {
+    display:none;
+    position:absolute;
+    min-width:140px;
+    
+}
+
+.header .barra .nav li:hover > ul {
+    display:grid;
+    
+}
+
 
 @media (min-width: 768px){
     html {
@@ -96,6 +127,40 @@ html {
         padding: 0 2vw;
         font-size: 1.2rem;
     }
+
+    
+    .header .barra ul{
+        list-style:none;
+        
+    }
+
+    .header .barra .nav li a {
+        background-color:#B7B7B7;
+        color:#373737;
+        text-decoration:none;
+        padding:14px 17px;
+        display:flex;
+        
+    }
+    
+    .header .barra .nav li a:hover {
+        background-color:#B7B7B7;
+    }
+
+    .header .barra .nav li ul {
+        display:none;
+        position:absolute;
+        min-width:140px;
+        
+    }
+    
+    .header .barra .nav li:hover > ul {
+        display:grid;
+        
+    }
+    
+    
+
 }
 
 

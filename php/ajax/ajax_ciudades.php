@@ -19,7 +19,7 @@ if(isset($_POST['id'])):
     
          
     foreach ($u as $key => $value)
-    $html.="<option value='".$value['id_ciudad']."'>".$value['ciudad']."</option>";
+    $html.="<option id='ciud_opt' value='".$value['id_ciudad']."'>".$value['ciudad']."</option>";
     
     if($html!=""){
         echo "<option id='all_ciud' value='0' onchange='allciud();'>TODAS</option>";

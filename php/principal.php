@@ -86,6 +86,8 @@
         $provincia = $_SESSION['provincia'];
         $ciudad = $_SESSION['ciudad'];
 
+        session_destroy();
+
         if($nombre==null){
             session_destroy();
             header("Location:../index.html");
@@ -127,15 +129,46 @@
             </a>
         </div>
         <div class="barra">
-            <nav class="nav">
-                <a href="#">Configuraciones</a>
-                <a href="#">Búsqueda</a>
-                <a href="#">Mapas</a>
-                <a href="#">Comparativas</a>
-                <a href="../index.html" <?php session_destroy(); ?>;>Salir</a>
-            </nav>
+            <ul class="nav">
+                <li><a href="#">Configuraciones</a>
+                    <ul>
+                        <li><a href="#">Agregar Administrador</a></li>
+                        <li><a href="#">Agregar Instituciones</a></li>
+                        <li><a href="#">Agregar Alumnos</a></li>
+                        <li><a href="balanzas.php" onclick="balanza();">Balanzas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Búsqueda</a></li>
+                <li><a href="#">Mapas</a></li>
+                <li><a href="#">Comparativas</a></li>
+                <li><a href="../index.html" <?php session_destroy(); ?>;>Salir</a></li>
+            </ul>
         </div>
     </header>
+
+    <script> 
+        function balanza(){
+            <?php 
+                session_start();
+                //creamos sesion para balanzas
+                
+                
+                $_SESSION['nombre'] = $nombre;
+                $_SESSION['apellido'] = $apellido;
+                $_SESSION['status'] = $status;
+                $_SESSION['email'] = $email;
+                
+                $_SESSION['usuario'] = $usuario;
+                $_SESSION['id_institucion'] = $id_institucion;
+                $_SESSION['id_administrador'] = $id_administrador;
+                $_SESSION['institucion'] = $institucion;
+                
+                $_SESSION['pais'] = $pais;
+                $_SESSION['provincia'] = $provincia;
+                $_SESSION['ciudad'] = $ciudad;
+            ?>
+        }
+    </script>
     
     <main>
 
@@ -470,7 +503,7 @@
                                 //$('#provincias option').prop('selected', true);
                                 //document.getElementById('provincias').dispatchEvent(new Event('change'));
                                 //$('#provincias option').attr("checked");
-                                    
+                                consultarDatos();
                                 }
                                 else{
                                     //var provall = document.getElementById('all_prov');
@@ -508,6 +541,30 @@
                 </div>
 
                 <script type="text/javascript">
+
+
+                    function allciud(){
+                        console.log("Todas las ciudades");
+                        var ciudall = document.getElementById('all_ciud');
+                        var allciud = $("#ciudades").val();
+
+                        if(ciudall.selected==true){
+                            
+                            $('#ciudades option').prop('selected', true);
+                            document.getElementById('ciudades').dispatchEvent(new Event('change'));
+                            //$('#provincias option').attr("checked");
+                            consultarDatos(); 
+                            }
+                            else{
+                                $('#ciudades option').prop('selected', false);
+                                document.getElementById('ciudades').dispatchEvent(new Event('change'));
+                                
+                                consultarDatos();  
+                        }
+                        
+                    }
+
+
                     function ddselect2() {
                         var count = $("#ciudades :selected").length;
                         //document.getElementById("show2").innerHTML = count;
@@ -525,12 +582,36 @@
                                 //mostramos elementos seleccionados con el id= show
                                 
                                 //document.getElementById("show").innerHTML = selected3;
-                                consultarDatos();
+                                var ciudall = document.getElementById('all_ciud');
+                                if(ciudall.selected==false){
+                                    consultarDatos();
+                                }
                             }
                             if ($("#ciudades :selected").length == 0) {
                                 //document.getElementById("show").innerHTML = "-";
                             }
+                            if(option.selected==false){
+                                    consultarDatos();
+                                }
                         }
+                        var opt_ciud = document.getElementById('ciud_opt');
+
+                        if(opt_ciud.selected){
+                            
+                            //$('#provincias option').prop('selected', true);
+                            //document.getElementById('provincias').dispatchEvent(new Event('change'));
+                            //$('#provincias option').attr("checked");
+                                    consultarDatos();
+                            }
+                            else{
+                                //var provall = document.getElementById('all_prov');
+                                //$(provall).prop('selected', false);
+                                //provall.dispatchEvent(new Event('change'));
+                                if(ciudall.selected==false){
+                                    consultarDatos();
+                                }
+
+                        } 
                         //console.log("ciudades");
                         var parametrosCiudades= ""+$("#ciudades").val();
                         
@@ -934,7 +1015,7 @@
                         var myChart = new Chart(ctx, {
                             type:"bar",
                             data:{
-                                labels:['Obesidad Tipo 1','Obesidad Tipo 2','Obesidad Tipo 3','Sobrepeso','Delgadez Aceptable','Delgadez Moderada','Delgadez Severa','Normal','Resto'],
+                                labels:['Obes Tipo 3','Obes Tipo 2','Obes Tipo 1','Sobrepeso','Normal','Delg Aceptable','Delg Moderada','Delg Severa','Resto'],
                                 datasets:[{
                                     label:'Porcentaje',
                                     data:[0,0,0,0,0,0,0,0,0],
