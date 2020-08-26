@@ -1,7 +1,7 @@
 <?php
 echo "
 <form class='demo-example'>
-    <select id='ciudades' name='ciudades' multiple onchange='ddselect2();'>";
+    <select id='provincias' name='provincias' multiple onchange='ddselect0();'>";
 ?>
 
 <?php 
@@ -13,19 +13,19 @@ if(isset($_POST['id'])):
 	require "conexion.php";
     $user = new vivexDB();
 
-    $u=$user->buscar("ciudades",'provincias_id_provincia in ('.$_POST['id'].')');
+    $u=$user->buscar("provincias",'paises_id_pais in ('.$_POST['id'].')');
     $html="";
-    echo "<option id='all_ciud' value='0' onchange='allciud();'>TODAS</option>";
-    
+
+    echo "<option id='all_provincia' value='0' onchange='allprovincia();'>TODAS</option>";
          
     foreach ($u as $key => $value)
-    $html.="<option id='ciud_opt' value='".$value['id_ciudad']."'>".$value['ciudad']."</option>";
-    
+    $html.="<option id='provincia_opt' value='".$value['id_provincia']."'>".$value['provincia']."</option>";
     
     echo $html;
     if($html==""){
         echo "
         <script>
+            change_provincia();
             change_ciudad();
         </script>
         ";
@@ -39,8 +39,8 @@ echo "
     </form>
     <script type='text/javascript'>
                             $(function() {
-                                $('#ciudades').multiSelect({
-                                    'noneText': 'Ciudades',
+                                $('#provincias').multiSelect({
+                                    'noneText': 'provincias',
     
                                 });
                             });

@@ -64,5 +64,13 @@
                 return $resultado->fetch_all(MYSQLI_ASSOC);
             return false;
         }  
+
+        //BUSCAR Institucion
+        public function buscar_valor($tabla, $valor, $condicion){
+            $resultado = $this->conexion->query("SELECT $valor FROM $tabla WHERE $condicion") or die($this->conexion->error);
+            if($resultado)
+                return $resultado->fetch_all(MYSQLI_ASSOC);
+            return false;
+        } 
     }
 ?>
