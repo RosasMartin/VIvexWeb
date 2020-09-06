@@ -46,7 +46,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
     <!-- End Chart.js -->
     
-   
+    <!-- PopUp -->
+    <script type="text/javascript" src="../js/popup.js"></script>
 
     <!-- Mlutiple Select library -->
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
@@ -55,59 +56,61 @@
 
     <!-- CSS Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="../css/balanzas.css">
+    
     
 </head>
 
-    <!-- PHP session -->
-    <?php 
-        session_start();
-        //Recibimos las variables
-        
-        //Recibimos información del Administrador
-        
-        $nombre = $_SESSION['nombre'];
-        $apellido = $_SESSION['apellido'];
-        $status = $_SESSION['status'];
-        $email = $_SESSION['email'];
-        
-        $usuario = $_SESSION['usuario'];
-        $id_institucion = $_SESSION['id_institucion'];
-        $id_administrador = $_SESSION['id_administrador'];
-        $institucion = $_SESSION['institucion'];
-        
-        $pais = $_SESSION['pais'];
-        $provincia = $_SESSION['provincia'];
-        $ciudad = $_SESSION['ciudad'];
+<!-- PHP session -->
+<?php 
+    session_start();
+    //Recibimos las variables
+    
+    //Recibimos información del Administrador
+    
+    $nombre = $_SESSION['nombre'];
+    $apellido = $_SESSION['apellido'];
+    $status = $_SESSION['status'];
+    $email = $_SESSION['email'];
+    
+    $usuario = $_SESSION['usuario'];
+    $id_institucion = $_SESSION['id_institucion'];
+    $id_administrador = $_SESSION['id_administrador'];
+    $institucion = $_SESSION['institucion'];
+    
+    $pais = $_SESSION['pais'];
+    $provincia = $_SESSION['provincia'];
+    $ciudad = $_SESSION['ciudad'];
 
-        if($nombre==null){
-            session_destroy();
-            header("Location:../index.html");
+    if($nombre==null){
+        session_destroy();
+        header("Location:../index.html");
 
-        }
-        
-        error_reporting(0);
-        
-        //iniciamos sesion en la base de datos
-        
-        
-        //$db_name = "healthyjunio";
-        //$mysql_user = "root";
-        //$mysql_pass = "Joseroot01";
-        //$server_name = "localhost";
-        //$var_res = "";
-        //$conexion=mysqli_connect($server_name,$mysql_user,$mysql_pass,$db_name);
+    }
+    
+    error_reporting(0);
+    
+    //iniciamos sesion en la base de datos
+    
+    
+    //$db_name = "healthyjunio";
+    //$mysql_user = "root";
+    //$mysql_pass = "Joseroot01";
+    //$server_name = "localhost";
+    //$var_res = "";
+    //$conexion=mysqli_connect($server_name,$mysql_user,$mysql_pass,$db_name);
+
+
+    //consultamos Provincias, ciudades e intituciones disponibles de acuerdo al valor "status"
     
 
-        //consultamos Provincias, ciudades e intituciones disponibles de acuerdo al valor "status"
-        
+?>
+<?php 
+require "./ajax/conexion.php";
+$user=new vivexDB();
 
-    ?>
-    <?php 
-    require "./ajax/conexion.php";
-    $user=new vivexDB();
-    
-    ?>
+?>
 
 
 <body>
@@ -126,9 +129,9 @@
             <ul class="nav">
                 <li><a href="#">Configuraciones</a>
                     <ul>
-                        <li><a href="#">Agregar Administrador</a></li>
-                        <li><a href="#">Agregar Instituciones</a></li>
-                        <li><a href="#">Agregar Alumnos</a></li>
+                        <li><a href="#" id="Admin" onclick="open_popup(this.id);">Agregar Administrador</a></li>
+                        <li><a href="#" id="Insti" onclick="open_popup(this.id);">Agregar Instituciones</a></li>
+                        <li><a href="#" id="Alumn" onclick="open_popup(this.id);">Agregar Alumnos</a></li>
                         <li><a href="balanzas.php">Balanzas</a></li>
                     </ul>
                 </li>
@@ -140,6 +143,7 @@
         </div>
     </header>
     <!-- End Header -->
+
 
 <!--################################################################################################################-->    
     <!-- Javascript functions -->
@@ -225,18 +229,46 @@
             //End Ajax instituciones
         }
 
+        function change_contrato(){
+            //Ajax instituciones
+            
+                        
+            $.ajax({
+                data: {'id':"-"},
+                url:   './ajax/ajax_contratos.php',
+                type:  'POST',
+                beforeSend: function () {
+                    //console.log("Enviando");
+                    
+                },
+                success:  function (response) { 
+
+                    $("#contratos_recargar").html(response);
+                    //console.log("cambio");
+                    //console.log(parametrosciudades);
+                    //console.log(response);
+                    
+                },
+                error:function(){
+                    alert("error")
+                }
+            });
+            //End Ajax instituciones
+        }
+
         function dispositivos(){
             var parametrospaises= ""+$("#paises").val();
             var parametrosProvincias= ""+$("#provincias").val();
             var parametrosciudades= ""+$("#ciudades").val();
             var parametrosinstituciones= ""+$("#instituciones").val();
-
-            //console.log("ajax dispositivos");           
+            var parametroscontrato= ""+$("#contratos").val();
+            //alert("contratos: "+parametroscontrato);      
             $.ajax({
                 data: { 'id_pais':parametrospaises,
                         'id_provincia':parametrosProvincias,
                         'id_ciudad':parametrosciudades,
-                        'id_institucion':parametrosinstituciones},
+                        'id_institucion':parametrosinstituciones,
+                        'id_contrato':parametroscontrato},
                 url:   './ajax/ajax_dispositivos.php',
                 type:  'POST',
                 beforeSend: function () {
@@ -282,6 +314,7 @@
                         console.log("bloquear");
                     }
                     dispositivos_mapa();
+                    dispositivos_estado();
                 },
                 error:function(){
                     alert("error")
@@ -294,12 +327,15 @@
             var parametrosProvincias= ""+$("#provincias").val();
             var parametrosciudades= ""+$("#ciudades").val();
             var parametrosinstituciones= ""+$("#instituciones").val();
+            var parametroscontrato= ""+$("#contratos").val();
+            //alert("contratos: "+parametroscontrato); 
             //console.log("ajax dispositivos");           
             $.ajax({
                 data: { 'id_pais':parametrospaises,
                         'id_provincia':parametrosProvincias,
                         'id_ciudad':parametrosciudades,
-                        'id_institucion':parametrosinstituciones},
+                        'id_institucion':parametrosinstituciones,
+                        'id_contrato':parametroscontrato},
                 url:   './ajax/ajax_dispositivos_mapa.php',
                 type:  'POST',
                 beforeSend: function () {
@@ -320,12 +356,47 @@
                 }
             });
         }
+
+        function dispositivos_estado(){ //id_hardware
+            var parametrospaises= ""+$("#paises").val();
+            var parametrosProvincias= ""+$("#provincias").val();
+            var parametrosciudades= ""+$("#ciudades").val();
+            var parametrosinstituciones= ""+$("#instituciones").val();
+            var parametroscontrato= ""+$("#contratos").val();
+            //console.log("ajax dispositivos");           
+            $.ajax({
+                data: { 'id_pais':parametrospaises,
+                        'id_provincia':parametrosProvincias,
+                        'id_ciudad':parametrosciudades,
+                        'id_institucion':parametrosinstituciones,
+                        'id_contrato':parametroscontrato},
+                url:   './ajax/ajax_dispositivos_estado.php',
+                type:  'POST',
+                beforeSend: function () {
+                //console.log("Enviando");
+                    
+                },
+                success:  function (response) { 
+
+                    $("#dispositivos_estado").html(response);
+                    //console.log("cambio");
+                    //console.log(parametrospaises);
+                    //console.log("mapa");
+                    
+                    
+                },
+                error:function(){
+                    alert("error")
+                }
+            });
+        }
         //End Ajax
 
         //Google Maps initMap Function (Ajax Response)
         var markers="";
         var infoWindowContent="";
         var icon_select="";
+        var estado="";
         function initMap() {
             var map;
             var bounds = new google.maps.LatLngBounds();
@@ -374,6 +445,12 @@
                 origin: new google.maps.Point(0,0), // origin
                 anchor: new google.maps.Point(0, 0) // anchor
             };
+            var nada_icon = {
+                url: "../img/mapa_indicador_nada.png", // url
+                scaledSize: new google.maps.Size(30, 30), // scaled size
+                origin: new google.maps.Point(0,0), // origin
+                anchor: new google.maps.Point(0, 0) // anchor
+            };
             //End iconos
             
             // Place each marker on the map 
@@ -400,6 +477,29 @@
                         // Center the map to fit all markers on the screen
                         map.fitBounds(bounds);
                     }
+                    if(estado[i]=="Off Line"){
+                        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                        bounds.extend(position);
+                        marker = new google.maps.Marker({
+                            position: position,
+                            icon: alto_icon,
+                            map: map,
+                            title: markers[i][0]
+                        });
+                        
+                        // Add info window to marker    
+                        google.maps.event.addListener(marker, "click", (function(marker, i) {
+                            return function() {
+                                infoWindow.setContent(infoWindowContent[i][0]);
+                                infoWindow.open(map, marker);
+                            }
+                        })(marker, i));
+
+                        // Center the map to fit all markers on the screen
+                        map.fitBounds(bounds);
+                    }
+                    
+                    
                     if(icon_select[i]=="0"){
                         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                         bounds.extend(position);
@@ -421,7 +521,11 @@
                         // Center the map to fit all markers on the screen
                         map.fitBounds(bounds);
                     }
-                    if(icon_select=="2"){
+
+                    if(icon_select[i]=="2"){
+                        console.log("nada");
+                        marker.setMap(null);
+                        marker=null;
                         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                         bounds.extend(position);
                         marker = new google.maps.Marker({
@@ -441,7 +545,33 @@
 
                         // Center the map to fit all markers on the screen
                         map.fitBounds(bounds);
+                        
                     }
+
+                    if(icon_select[i]=="3"){
+                        console.log("nada");
+                        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                        bounds.extend(position);
+                        marker = new google.maps.Marker({
+                            position: position,
+                            icon: " ",
+                            map: map,
+                            title: markers[i][0]
+                        });
+                        
+                        // Add info window to marker    
+                        google.maps.event.addListener(marker, "click", (function(marker, i) {
+                            return function() {
+                                infoWindow.setContent(infoWindowContent[i][0]);
+                                infoWindow.open(map, marker);
+                            }
+                        })(marker, i));
+
+                        // Center the map to fit all markers on the screen
+                        map.fitBounds(bounds);
+                        
+                    }
+                   
                 }
            
              
@@ -462,16 +592,71 @@
 <!--################################################################################################################-->    
     <!-- Main -->
     <main>
+        <!-- PopUp (Formularios) -->
+       
+        <div class="overlay" id="overlay">
+			<div class="popup" id="popup">
+           
+			</div>
+        </div>
+        <script type="text/javascript">
+           
+
+            function open_popup(clicked_id){
+                //alert(clicked_id);
+                //llamada de ajax popup
+                //Ajax
+                $.ajax({
+                    data: { 'id':clicked_id},
+                    url:   './ajax/ajax_popup.php',
+                    type:  'POST',
+                    beforeSend: function () {
+                    //console.log("Enviando");
+                        
+                    },
+                    success:  function (response) { 
+
+                        $("#popup").html(response);
+                        //console.log("cambio");
+                        //console.log(parametrospaises);
+                        //console.log("mapa");
+                        show_popup();
+                        
+                    },
+                    error:function(){
+                        alert("error")
+                    }
+                });
+
+                
+            }
+            //show popup
+            function show_popup(){
+                var overlay = document.getElementById('overlay'),
+                popup = document.getElementById('popup'),
+                btnCerrarPopup = document.getElementById('btn-cerrar-popup');
+
+                btnCerrarPopup.addEventListener('click', function(e){
+                    e.preventDefault();
+                    overlay.classList.remove('active');
+                    popup.classList.remove('active');
+                });
+
+                overlay.classList.add('active');
+                popup.classList.add('active');
+            }
+        </script>
+        <!-- End PopUp -->
         <!-- Estado de las balanzas -->
             <div class="balanzas-estado">
                 <div class="barra-balanzas-estado">
                     <p>Estado de las balanzas</p>
                 </div>
-                <div class="contenido-balanzas-estado">
+                <div id="dispositivos_estado" class="contenido-balanzas-estado">
                     <div class="estado-uno">
                         <div class="uno-valores">
-                            <p class="cantidad-balanzas">00</p>
-                            <p class="porcentaje-balanzas">000%</p>
+                            <p class="cantidad-balanzas">0</p>
+                            <p class="porcentaje-balanzas">0%</p>
                         </div>
                         <div class="online">
                             <p>Dispositivos Online</p>
@@ -479,8 +664,8 @@
                     </div>
                     <div class="estado-dos">
                         <div class="dos-valores">
-                            <p class="cantidad-balanzas">00</p>
-                            <p class="porcentaje-balanzas">000%</p>
+                            <p class="cantidad-balanzas">0</p>
+                            <p class="porcentaje-balanzas">0%</p>
                         </div>
                         <div class="offline">
                             <p>Dispositivos Offline</p>
@@ -488,7 +673,7 @@
                     </div>
                     <div class="estado-tres">
                         <div class="tres-valores">
-                            <p class="cantidad-transacciones">00</p>
+                            <p class="cantidad-transacciones">0</p>
                         </div>
                         <div class="transacciones">
                             <p>Transacciones Mensuales</p>
@@ -496,7 +681,7 @@
                     </div>
                     <div class="estado-cuatro">
                         <div class="cuatro-valores">
-                            <p class="cantidad-transacciones">00</p>
+                            <p class="cantidad-transacciones">0</p>
                         </div>
                         <div class="transacciones">
                             <p>Transacciones diarias</p>
@@ -504,9 +689,7 @@
                     </div>
                     <div class="estado-cinco">
                         <p>Ultima Medición:</p>
-                        <p>xx/xx/xx</p>
-                        <p>00:00:00</p>
-                        <p>id: ----</p>
+                        
                     </div>
                 </div>
             </div>
@@ -629,6 +812,7 @@
                             change_ciudad();  
                             dispositivos();
                             dispositivos_mapa();
+                            dispositivos_estado();
                         }
                     </script>
                     <!-- End Paises --> 
@@ -736,6 +920,7 @@
                             change_ciudad(); 
                             dispositivos();
                             dispositivos_mapa();
+                            dispositivos_estado();
                         }
                     </script>
                     <!-- End provincias --> 
@@ -841,6 +1026,7 @@
                                 change_ciudad();
                                 dispositivos();
                                 dispositivos_mapa();
+                                dispositivos_estado();
                             
                         }
                     </script>
@@ -935,6 +1121,7 @@
                                     //consultarDatos();
                                     dispositivos();
                                     dispositivos_mapa();
+                                    dispositivos_estado();
                                     }
                                     else{
                                         //var institucionall = document.getElementById('all_institucion');
@@ -944,6 +1131,7 @@
                                             //consultarDatos();
                                             dispositivos();
                                             dispositivos_mapa();
+                                            dispositivos_estado();
                                         }
 
                                 } 
@@ -951,6 +1139,115 @@
                         }
                     </script>
                     <!-- End instituciones --> 
+                    <!-- Contratos -->
+                     <div id="contratos_recargar">
+                        <form class="demo-example">
+                            <select id="contratos" name="contratos" multiple onchange="ddselect4();">
+                            <option id='all_contrato' value='0' onchange='allcontrato();'>TODOS</option>
+
+                                
+                                    
+                            </select>
+                        </form>
+                    </div>
+                    <script type="text/javascript">
+                        
+                        $(function() {
+                            $('#contratos').multiSelect({
+                                'noneText': 'Contratos',
+
+                            });
+                        });
+
+                        function allcontrato(){
+                            console.log("Todos los contratos");
+                            var contratoall = document.getElementById('all_contrato');
+                            var allcontrato = $("#contratos").val();
+
+                            if(contratoall.selected==true){
+                                
+                                $('#contratos option').prop('selected', true);
+                                document.getElementById('contratos').dispatchEvent(new Event('change'));
+                                //$('#contratos option').attr("checked");
+                                //consultarDatos(); 
+                                }
+                                else{
+                                    $('#contratos option').prop('selected', false);
+                                    document.getElementById('contratos').dispatchEvent(new Event('change'));
+                                    //consultarDatos();  
+                            }
+
+                            
+                            
+                        }
+
+                        function ddselect4() {
+                            var contratoall = document.getElementById('all_contrato');
+                            
+                                var select = $("#contratos").val();
+                                
+                                
+                                var count = $("#contratos :selected").length;
+                                //document.getElementById("show2").innerHTML = count;
+                                $(function() {
+                                    $('#contratos').multiSelect({
+                                        'allText': 'contratos',
+
+                                    });
+                                });
+
+                                var selected2 = [];
+                                for (var option of document.getElementById('contratos').options) {
+                                    if (option.selected) {
+                                        selected2.push(option.value);
+                                        //mostramos elementos seleccionados con el id= show
+                                        //document.getElementById("show").innerHTML = selected2;
+                                        
+                                        //Busqueda de contratos de acuerdo a lo seleccionado en contratos
+                                        console.log("contratos seleccionadas: ");
+                                        console.log(selected2);
+                                        if(contratoall.selected==false){
+                                            //consultarDatos();
+                                        }
+
+                                    }
+                                    if ($("#contratos :selected").length == 0) {
+                                        //document.getElementById("show").innerHTML = "-";
+                                    }
+                                    if(option.selected==false){
+                                        //consultarDatos();
+                                    }
+                                }
+                                
+                                var opt_contrato = document.getElementById('contrato_opt');
+
+                                if(opt_contrato.selected){
+                                    
+                                    //$('#contratos option').prop('selected', true);
+                                    //document.getElementById('contratos').dispatchEvent(new Event('change'));
+                                    //$('#contratos option').attr("checked");
+                                    //consultarDatos();
+                                    dispositivos();
+                                    dispositivos_mapa();
+                                    dispositivos_estado();
+                                    }
+                                    else{
+                                        //var contratoall = document.getElementById('all_contrato');
+                                        //$(contratoall).prop('selected', false);
+                                        //contratoall.dispatchEvent(new Event('change'));
+                                        if(contratoall.selected==false){
+                                            //consultarDatos();
+                                            dispositivos();
+                                            dispositivos_mapa();
+                                            dispositivos_estado();
+                                        }
+
+                                } 
+                            
+                        }
+                        change_contrato();
+                    </script>
+                    <!-- End Contratos -->
                 </div>
             </div>
         <!-- End Búsqueda -->
@@ -975,7 +1272,7 @@
                                 ["<div class=info_content>" +
                                 "<h3>Vivex</h3>"]];
                             
-                            var icon_select="2";
+                            var icon_select="3";
                             initMap(markers,infoWindowContent,icon_select);
                             // Load initialize function
                             google.maps.event.addDomListener(window, "load", initMap);
@@ -999,21 +1296,26 @@
                     </label>
                     <p>ID Balanza</p>
                     <p>ID Institucuón</p>
+                    <p>ID Contrato</p>
                     <p>Estado</p>
                     <p>Trans. Totales</p>
                     <p>Ultim. Transacción</p>
                     <a href="#"><img class="icon_datos" src="../img/anadir.png" alt=""></a>
                     <a href="#"><img class="icon_datos" src="../img/bloquear.png" alt=""></a>
+                    <p> </p>
+                    <p> </p>
                 </div>
                 <div id="contenido-dispositivos" class="contenido-dispositivos">
                     
                     
                 </div>
+
             </div>
+
         <!-- End Dispositivos -->
     </main>
     <!-- End MAin -->
-
+                           
     <!-- Footer -->
     <footer class="footer">
         <p>Copyright © Sistema Vivex 2020 - Todos los derechos reservados</p>

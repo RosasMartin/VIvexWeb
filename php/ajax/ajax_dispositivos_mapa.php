@@ -9,7 +9,7 @@ if(isset($_POST['id_pais'])):
     //echo $_POST['id_ciudad'];
     //echo $_POST['id_provincia'];
     //echo $_POST['id_pais'];
-
+    //echo $_POST['id_contrato'];
     $u="";
     if($_POST['id_provincia']=="null"&&$_POST['id_pais']!="null"){
         $u=$user->buscar("dispositivos",'paises_id_pais in ('.$_POST['id_pais'].')');
@@ -26,9 +26,13 @@ if(isset($_POST['id_pais'])):
     if($_POST['id_pais']=="null"&&$_POST['id_provincia']=="null"&&$_POST['id_ciudad']=="null"&&$_POST['id_institucion']=="null"){
         $u=="";
     }
+    if($_POST['id_contrato']!="null"){
+        $u=$user->buscar("dispositivos",'id_contrato in ('.$_POST['id_contrato'].')');
+    }
     $html="";
     $html2="";
     $html3="";
+    $html4="";
     $pago="";
     
     //echo $value2['colegio'];
@@ -67,7 +71,8 @@ if(isset($_POST['id_pais'])):
                         "Vivex/'.$value2['colegio'].'</p>"+
                         "</div>"+
                         "</div>"],';
-                            $html3.="['".$value['pago']."'],";
+                        $html3.="['".$value['pago']."'],";
+                        $html4.="['".$value['estado']."'],";
                         }
                 }
             }
@@ -91,7 +96,10 @@ if(isset($_POST['id_pais'])):
     //pago icon
     $icon_select=$html3;
 
-    if($markers!=null){
+    //estado
+    $estado=$html4;
+
+    if($markers){
         
         $html="";   
         $html='
@@ -99,24 +107,28 @@ if(isset($_POST['id_pais'])):
             var markers=['.$markers.'] ;
             var infoWindowContent=['.$infoWindowContent.'];
             var icon_select=['.$icon_select.'];
+            var estado=['.$estado.'];
             initMap(); 
         </script>';
     }else{
         $html="";   
         $html='
         <script>
-        var markers = [
-            ["Vivex", -31.4287235, -64.1888398]
-            
-        ];
+        // Multiple markers location, latitude, and longitude
+                            var markers = [
+                                ["Vivex", -31.4287235, -64.1888398]
+                                
+                            ];
+                                                
+                            // Info window content
+                            var infoWindowContent = [
+                                ["<div class=info_content>" +
+                                "<h3>Vivex nulo</h3>"]];
                             
-        // Info window content
-        var infoWindowContent = [
-            ["<div class=info_content>" +
-            "<h3>Vivex</h3>"]];
-        
-        var icon_select="2";
-            initMap(); 
+                            var icon_select=[2];
+    
+                            initMap(markers,infoWindowContent,icon_select);
+                            
         </script>';
     }
 
