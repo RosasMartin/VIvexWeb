@@ -606,27 +606,55 @@ $user=new vivexDB();
                 //alert(clicked_id);
                 //llamada de ajax popup
                 //Ajax
-                $.ajax({
-                    data: { 'id':clicked_id},
-                    url:   './ajax/ajax_popup.php',
-                    type:  'POST',
-                    beforeSend: function () {
-                    //console.log("Enviando");
-                        
-                    },
-                    success:  function (response) { 
+                //Agregar Administrador
+                if(clicked_id=="Admin"){
+                    $.ajax({
+                        data: { 'id':clicked_id},
+                        url:   './ajax/ajax_popup_add_admin.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
 
-                        $("#popup").html(response);
-                        //console.log("cambio");
-                        //console.log(parametrospaises);
-                        //console.log("mapa");
-                        show_popup();
-                        
-                    },
-                    error:function(){
-                        alert("error")
-                    }
-                });
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            show_popup();
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+                }
+
+                //Agregar Institucion
+                if(clicked_id=="Insti"){
+                    $.ajax({
+                        data: { 'id':clicked_id},
+                        url:   './ajax/ajax_popup_add_insti.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
+
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            show_popup();
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+                }
 
                 
             }

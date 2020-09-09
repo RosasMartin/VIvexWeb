@@ -242,51 +242,59 @@ if(isset($_POST['id'])):
                 var passtwoAdmin = $('#passtwopopup').val();
                 
                 if(contratoAdmin!='0'){
-                    document.getElementById('idcontratopopup').style.border = '2px solid #89fc00';
+                    document.getElementById('idcontratopopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('idcontratopopup').style.border = '2px solid #D00000';
+                    document.getElementById('idcontratopopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(estatusAdmin!='0'){
-                    document.getElementById('estatuspopup').style.border = '2px solid #89fc00';
+                    document.getElementById('estatuspopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('estatuspopup').style.border = '2px solid #D00000';
+                    document.getElementById('estatuspopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(paisAdmin!='0'){
-                    document.getElementById('paisespopup').style.border = '2px solid #89fc00';
+                    document.getElementById('paisespopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('paisespopup').style.border = '2px solid #D00000';
+                    document.getElementById('paisespopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(provinciaAdmin!='0'){
-                    document.getElementById('provinciapopup').style.border = '2px solid #89fc00';
+                    document.getElementById('provinciapopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('provinciapopup').style.border = '2px solid #D00000';
+                    document.getElementById('provinciapopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(ciudadAdmin!='0'){
-                    document.getElementById('ciudadpopup').style.border = '2px solid #89fc00';
+                    document.getElementById('ciudadpopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('ciudadpopup').style.border = '2px solid #D00000';
+                    document.getElementById('ciudadpopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(institucionAdmin!='0'){
-                    document.getElementById('institucionpopup').style.border = '2px solid #89fc00';
+                    document.getElementById('institucionpopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('institucionpopup').style.border = '2px solid #D00000';
+                    document.getElementById('institucionpopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(nombreAdmin!=''){
-                    document.getElementById('nombrepopup').style.border = '2px solid #89fc00';
+                    document.getElementById('nombrepopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('nombrepopup').style.border = '2px solid #D00000';
+                    document.getElementById('nombrepopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(apellidoAdmin!=''){
-                    document.getElementById('apellidopopup').style.border = '2px solid #89fc00';
+                    document.getElementById('apellidopopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('apellidopopup').style.border = '2px solid #D00000';
+                    document.getElementById('apellidopopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(correoAdmin!=''){
@@ -294,33 +302,34 @@ if(isset($_POST['id'])):
                     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                    
                     if (reg.test(correoAdmin) == false) {
-                        document.getElementById('correopopup').style.border = '2px solid #D00000';
+                        document.getElementById('correopopup').style.border = '1.5px solid #D00000';
                         document.getElementById('mensajeAdmin').innerHTML = 'Error: *El formato de correo es incorrecto';
                     }else{
-                        document.getElementById('correopopup').style.border = '2px solid #89fc00';
+                        document.getElementById('correopopup').style.border = '1.5px solid #89fc00';
                         document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                         document.getElementById('btnAdmin').style.cursor = 'not-allowed';
                     }
                 }else{
-                    document.getElementById('correopopup').style.border = '2px solid #D00000';
+                    document.getElementById('correopopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
                 if(passoneAdmin!='' || passtwoAdmin!=''){
                     if(passoneAdmin!=passtwoAdmin){
                         document.getElementById('mensajeAdmin').innerHTML = 'Error: las contraseñas no son iguales';
-                        document.getElementById('passonepopup').style.border = '2px solid #D00000';
-                        document.getElementById('passtwopopup').style.border = '2px solid #D00000';
+                        document.getElementById('passonepopup').style.border = '1.5px solid #D00000';
+                        document.getElementById('passtwopopup').style.border = '1.5px solid #D00000';
                     }else{
                         document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
-                        document.getElementById('passonepopup').style.border = '2px solid #89fc00';
-                        document.getElementById('passtwopopup').style.border = '2px solid #89fc00';
+                        document.getElementById('passonepopup').style.border = '1.5px solid #89fc00';
+                        document.getElementById('passtwopopup').style.border = '1.5px solid #89fc00';
                         document.getElementById('btnAdmin').style.cursor = 'not-allowed';
                     }
                 }
 
                 if(passoneAdmin=='' || passtwoAdmin==''){
-                    document.getElementById('passonepopup').style.border = '2px solid #D00000';
-                    document.getElementById('passtwopopup').style.border = '2px solid #D00000';
+                    document.getElementById('passonepopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('passtwopopup').style.border = '1.5px solid #D00000';
                 }
 
                 if(paisAdmin!='0'&&provinciaAdmin!='0'&&ciudadAdmin!='0'&&institucionAdmin!='0'&&contratoAdmin!='0'&&estatusAdmin!='0'){
