@@ -26,7 +26,7 @@ if(isset($_POST['id'])):
 
 <?php
     
-    if(strpos($_POST['id'], "Insti")=="true"){  
+    if(strpos($_POST['id'], "Admin")=="true"){  
         //Multiselect paises
         $AdminPais1="    
         <form>
@@ -55,63 +55,6 @@ if(isset($_POST['id'])):
         </form>
         <script type='text/javascript'>
 
-            function ddselectcaracteristicapopup(){
-                var select = $('#caracteristicapopup').val();
-                var selectedcaracteristicapopup = [];
-                for (var option of document.getElementById('caracteristicapopup').options) {
-                    if (option.selected) {
-                        selectedcaracteristicapopup.push(option.value);
-                    }
-                }
-
-                //popupcaracteristicapopup(selectedcaracteristicapopup);
-                mensajeInsti();
-                document.getElementById('caracteristicapopup').style.border = '1.5px solid #89fc00';
-            }
-
-            function ddselectfinanciamientopopup(){
-                var select = $('#financiamientopopup').val();
-                var selectedfinanciamientopopup = [];
-                for (var option of document.getElementById('financiamientopopup').options) {
-                    if (option.selected) {
-                        selectedfinanciamientopopup.push(option.value);
-                    }
-                }
-
-                //popupfinanciamientopopup(selectedfinanciamientopopup);
-                mensajeInsti();
-                document.getElementById('financiamientopopup').style.border = '1.5px solid #89fc00';
-            }
-
-            function ddselectriesgoeducativopopup(){
-                var select = $('#riesgoeducativopopup').val();
-                var selectedriesgoeducativopopup = [];
-                for (var option of document.getElementById('riesgoeducativopopup').options) {
-                    if (option.selected) {
-                        selectedriesgoeducativopopup.push(option.value);
-                    }
-                }
-
-                //popupriesgoeducativopopup(selectedriesgoeducativopopup);
-                mensajeInsti();
-                document.getElementById('riesgoeducativopopup').style.border = '1.5px solid #89fc00';
-            }
-
-            function ddselectprogramaasistenciapopup(){
-                var select = $('#programaasistenciapopup').val();
-                var selectedprogramaasistenciapopup = [];
-                for (var option of document.getElementById('programaasistenciapopup').options) {
-                    if (option.selected) {
-                        selectedprogramaasistenciapopup.push(option.value);
-                    }
-                }
-
-                //alert(selectedprogramaasistenciapopup);
-                //popupprogramaasistenciapopup(selectedprogramaasistenciapopup);
-                mensajeInsti();
-                document.getElementById('programaasistenciapopup').style.border = '1.5px solid #89fc00';
-            }
-
             function ddselectpaispopup() {
                             
                 var select = $('#paises').val();
@@ -123,8 +66,8 @@ if(isset($_POST['id'])):
                 }
 
                 popupPaisSelect(selectedpaises);
-                mensajeInsti();
-                document.getElementById('paisespopup').style.border = '1.5px solid #89fc00';
+                mensajeAdmin();
+                document.getElementById('paisespopup').style.border = '2px solid #89fc00';
             }
             function popupPaisSelect(selectedpaises){
                 //alert(selectedpaises);
@@ -159,8 +102,8 @@ if(isset($_POST['id'])):
                 }
                 //alert(selectedprovincias);
                 popupProvinciaSelect(selectedprovincias);
-                mensajeInsti();
-                document.getElementById('provinciapopup').style.border = '1.5px solid #89fc00';
+                mensajeAdmin();
+                document.getElementById('provinciapopup').style.border = '2px solid #89fc00';
             }
             function popupProvinciaSelect(selectedprovincias){
                 //alert(selectedprovincias);
@@ -193,39 +136,67 @@ if(isset($_POST['id'])):
                     }
                 }
                 //alert(selectedciudades);
-                mensajeInsti();
-                document.getElementById('ciudadpopup').style.border = '1.5px solid #89fc00';
+                popupciudadeselect(selectedciudades);
+                mensajeAdmin();
+                document.getElementById('ciudadpopup').style.border = '2px solid #89fc00';
             }
-            
-           
-            function suscribeInsti(){
-                var paisInsti = $('#paisespopup').val();
-                var provinciaInsti = $('#provinciapopup').val();
-                var ciudadInsti = $('#ciudadpopup').val();
-                var caracteristicapopup = $('#caracteristicapopup').val();
-                var financiamientopopup = $('#financiamientopopup').val();
-                var nombreinstitucionpopup = $('#nombreinstitucionpopup').val();
-                var domiciliopopup = $('#domiciliopopup').val();
-                var riesgoeducativopopup = $('#riesgoeducativopopup').val();
-                var programaasistenciapopup = $('#programaasistenciapopup').val();
-                
+            function popupciudadeselect(selectedciudades){
+                //alert(selectedciudades);
+                $.ajax({
+                    data: { 'id_ciudad':selectedciudades[0]},
+                    url:   './ajax/ajax_popup_institucion.php',
+                    type:  'POST',
+                    beforeSend: function () {
+                    //console.log('Enviando');
+                        
+                    },
+                    success:  function (response) { 
+    
+                        $('#institucionpopup').html(response);
+                        
+                        
+                    },
+                    error:function(){
+                        alert('error')
+                    }
+                });
+            }
 
-                let element = document.getElementById('btnInsti');
+            function ddselectinstitucionpopup(){
+                document.getElementById('institucionpopup').style.border = '2px solid #89fc00';
+            }
+
+            function suscribeAdmin(){
+                var paisAdmin = $('#paisespopup').val();
+                var provinciaAdmin = $('#provinciapopup').val();
+                var ciudadAdmin = $('#ciudadpopup').val();
+                var institucionAdmin = $('#institucionpopup').val();
+                var contratoAdmin = $('#idcontratopopup').val();
+                var estatusAdmin = $('#estatuspopup').val();
+                var nombreAdmin = $('#nombrepopup').val();
+                var apellidoAdmin = $('#apellidopopup').val();
+                var correoAdmin = $('#correopopup').val();
+                var passoneAdmin = $('#passonepopup').val();
+                var passtwoAdmin = $('#passtwopopup').val();
+
+                let element = document.getElementById('btnAdmin');
                 let elementStyle = window.getComputedStyle(element);
                 let elementcursor = elementStyle.getPropertyValue('cursor');
                 //alert(elementcursor);
                 if(elementcursor=='default'){
                     $.ajax({
-                        data: { 'colegio': nombreinstitucionpopup,
-                                'domicilio': domiciliopopup,
-                                'caracteristica': caracteristicapopup,
-                                'financiamiento': financiamientopopup,
-                                'riesgo_educativo':  riesgoeducativopopup,
-                                'programa_asistencia':  programaasistenciapopup,
-                                'ciudades_id_ciudad': ciudadInsti,
-                                'tipo': 'azul',
-                                'porcentaje_riesgo': '0.0'},
-                        url:   './ajax/ajax_popup_suscripcionInsti.php',
+                        data: { 'status': estatusAdmin,
+                                'nombre': nombreAdmin,
+                                'apellido': apellidoAdmin,
+                                'username': correoAdmin,
+                                'password': passoneAdmin,
+                                'email': correoAdmin,
+                                'paises_id_pais': paisAdmin,
+                                'provincias_id_provincia': provinciaAdmin,
+                                'ciudades_id_ciudad': ciudadAdmin,
+                                'instituciones_id_institucion': institucionAdmin,
+                                'id_contrato': contratoAdmin},
+                        url:   './ajax/ajax_popup_suscripcionAdmin.php',
                         type:  'POST',
                         beforeSend: function () {
                         //console.log('Enviando');
@@ -243,7 +214,7 @@ if(isset($_POST['id'])):
                                 alert('Error: Falló la conexión, intente nuevamente!');
                             }
                             if(response!='true'&&response!='false'){
-                                alert(response);
+                                //alert(response);
                                 //console.log(response);
                                 document.getElementById('mensajeAdmin').innerHTML = 'Error: *Ya existe un administrador con el mismo correo';
                     
@@ -257,86 +228,121 @@ if(isset($_POST['id'])):
                 
             }
 
-            function mensajeInsti(){
-                var paisInsti = $('#paisespopup').val();
-                var provinciaInsti = $('#provinciapopup').val();
-                var ciudadInsti = $('#ciudadpopup').val();
-                var caracteristicapopup = $('#caracteristicapopup').val();
-                var financiamientopopup = $('#financiamientopopup').val();
-                var nombreinstitucionpopup = $('#nombreinstitucionpopup').val();
-                var domiciliopopup = $('#domiciliopopup').val();
-                var riesgoeducativopopup = $('#riesgoeducativopopup').val();
-                var programaasistenciapopup = $('#programaasistenciapopup').val();
-
-                if(nombreinstitucionpopup!=''){
-                    document.getElementById('nombreinstitucionpopup').style.border = '1.5px solid #89fc00';
+            function mensajeAdmin(){
+                var paisAdmin = $('#paisespopup').val();
+                var provinciaAdmin = $('#provinciapopup').val();
+                var ciudadAdmin = $('#ciudadpopup').val();
+                var institucionAdmin = $('#institucionpopup').val();
+                var contratoAdmin = $('#idcontratopopup').val();
+                var estatusAdmin = $('#estatuspopup').val();
+                var nombreAdmin = $('#nombrepopup').val();
+                var apellidoAdmin = $('#apellidopopup').val();
+                var correoAdmin = $('#correopopup').val();
+                var passoneAdmin = $('#passonepopup').val();
+                var passtwoAdmin = $('#passtwopopup').val();
+                
+                if(contratoAdmin!='0'){
+                    document.getElementById('idcontratopopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('nombreinstitucionpopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
+                    document.getElementById('idcontratopopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
-                if(domiciliopopup!=''){
-                    document.getElementById('domiciliopopup').style.border = '1.5px solid #89fc00';
+                if(estatusAdmin!='0'){
+                    document.getElementById('estatuspopup').style.border = '1.5px solid #89fc00';
                 }else{
-                    document.getElementById('domiciliopopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
+                    document.getElementById('estatuspopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
-                if(caracteristicapopup!='0'){
-                    document.getElementById('caracteristicapopup').style.border = '1.5px solid #89fc00';
-                }else{
-                    document.getElementById('caracteristicapopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
-                }
-
-                if(financiamientopopup!='0'){
-                    document.getElementById('financiamientopopup').style.border = '1.5px solid #89fc00';
-                }else{
-                    document.getElementById('financiamientopopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
-                }
-
-                if(riesgoeducativopopup!='0'){
-                    document.getElementById('riesgoeducativopopup').style.border = '1.5px solid #89fc00';
-                }else{
-                    document.getElementById('riesgoeducativopopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
-                }
-
-                if(programaasistenciapopup!='0'){
-                    document.getElementById('programaasistenciapopup').style.border = '1.5px solid #89fc00';
-                }else{
-                    document.getElementById('programaasistenciapopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
-                }
-
-                if(paisInsti!='0'){
+                if(paisAdmin!='0'){
                     document.getElementById('paisespopup').style.border = '1.5px solid #89fc00';
                 }else{
                     document.getElementById('paisespopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
-                if(provinciaInsti!='0'){
+                if(provinciaAdmin!='0'){
                     document.getElementById('provinciapopup').style.border = '1.5px solid #89fc00';
                 }else{
                     document.getElementById('provinciapopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
 
-                if(ciudadInsti!='0'){
+                if(ciudadAdmin!='0'){
                     document.getElementById('ciudadpopup').style.border = '1.5px solid #89fc00';
                 }else{
                     document.getElementById('ciudadpopup').style.border = '1.5px solid #D00000';
-                    document.getElementById('mensajeInsti').innerHTML = 'Error: *Complete todos los campos';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
                 }
-                
-                if(paisInsti!='0'&&provinciaInsti!='0'&&ciudadInsti!='0'&&caracteristicapopup!='0'&&financiamientopopup!='0'&&riesgoeducativopopup!='0'&&programaasistenciapopup!='0'){
-                    if(nombreinstitucionpopup!=''&&domiciliopopup!=''){
-                        document.getElementById('mensajeInsti').innerHTML = '';   
-                        document.getElementById('btnInsti').style.cursor = 'default';
+
+                if(institucionAdmin!='0'){
+                    document.getElementById('institucionpopup').style.border = '1.5px solid #89fc00';
+                }else{
+                    document.getElementById('institucionpopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
+                }
+
+                if(nombreAdmin!=''){
+                    document.getElementById('nombrepopup').style.border = '1.5px solid #89fc00';
+                }else{
+                    document.getElementById('nombrepopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
+                }
+
+                if(apellidoAdmin!=''){
+                    document.getElementById('apellidopopup').style.border = '1.5px solid #89fc00';
+                }else{
+                    document.getElementById('apellidopopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
+                }
+
+                if(correoAdmin!=''){
+
+                    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                   
+                    if (reg.test(correoAdmin) == false) {
+                        document.getElementById('correopopup').style.border = '1.5px solid #D00000';
+                        document.getElementById('mensajeAdmin').innerHTML = 'Error: *El formato de correo es incorrecto';
+                    }else{
+                        document.getElementById('correopopup').style.border = '1.5px solid #89fc00';
+                        document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
+                        document.getElementById('btnAdmin').style.cursor = 'not-allowed';
+                    }
+                }else{
+                    document.getElementById('correopopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
+                }
+
+                if(passoneAdmin!='' || passtwoAdmin!=''){
+                    if(passoneAdmin!=passtwoAdmin){
+                        document.getElementById('mensajeAdmin').innerHTML = 'Error: las contraseñas no son iguales';
+                        document.getElementById('passonepopup').style.border = '1.5px solid #D00000';
+                        document.getElementById('passtwopopup').style.border = '1.5px solid #D00000';
+                    }else{
+                        document.getElementById('mensajeAdmin').innerHTML = 'Error: *Complete todos los campos';
+                        document.getElementById('passonepopup').style.border = '1.5px solid #89fc00';
+                        document.getElementById('passtwopopup').style.border = '1.5px solid #89fc00';
+                        document.getElementById('btnAdmin').style.cursor = 'not-allowed';
                     }
                 }
+
+                if(passoneAdmin=='' || passtwoAdmin==''){
+                    document.getElementById('passonepopup').style.border = '1.5px solid #D00000';
+                    document.getElementById('passtwopopup').style.border = '1.5px solid #D00000';
+                }
+
+                if(paisAdmin!='0'&&provinciaAdmin!='0'&&ciudadAdmin!='0'&&institucionAdmin!='0'&&contratoAdmin!='0'&&estatusAdmin!='0'){
+                    if(nombreAdmin!=''&&apellidoAdmin!=''&&correoAdmin!=''){
+                        if(passoneAdmin!='' || passtwoAdmin!=''){
+                            if(passoneAdmin==passtwoAdmin){
+                                document.getElementById('mensajeAdmin').innerHTML = '';   
+                                document.getElementById('btnAdmin').style.cursor = 'default';
+                            }
+                        }
+                    }
+                }
+
             }
         </script>";
         
@@ -374,8 +380,8 @@ if(isset($_POST['id'])):
             font-family: 'Montserrat', sans-serif;
             padding: 20px;
             text-align: center;
-            width: 500px;
-            height: 600px;
+            width: 800px;
+            height: 500px;
             transition: .3s ease all;
             transform: scale(0.7);
             opacity: 0;
@@ -417,14 +423,27 @@ if(isset($_POST['id'])):
         main .popup form .contenedor-inputs {
             opacity: 0;
             display:grid;
-            grid-template-columns: 1fr ;
-            grid-template-rows:1fr 1fr ;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows:1fr .4fr;
         }
         main .popup form .contenedor-inputs imput1{
             display:grid;
             grid-row: 1 / 2;
         }
-        
+        main .popup form .contenedor-inputs imput2{
+            display:grid;
+            grid-row: 2 / 3;
+        }
+        main .popup form .contenedor-inputs imput3{
+            display:grid;
+            grid-row: 1 / 2;
+            padding-top:20px;
+        }
+        main .popup form .contenedor-inputs imput4{
+            display:grid;
+            grid-row: 2 / 3;
+           
+        }
         main .popup form .contenedor-inputs input {
             width: 100%;
             margin-bottom: 10px;
@@ -514,46 +533,29 @@ if(isset($_POST['id'])):
         </style>
 
         <a href='#' id='btn-cerrar-popup' class='btn-cerrar-popup'><img src='../img/clear.png' alt=''></a>
-        <h3>Institución</h3>
-        <h4>Agregar institución</h3>
+        <h3>Administrador</h3>
+        <h4>Agregar administrador</h3>
         <form action=''>
             <div class=contenedor-maestro>
                 <div class='contenedor-inputs'>
                     <div class='imput1'>
-                        
-                        <input id='nombreinstitucionpopup' type='text' placeholder='Nombre Institución' onchange='mensajeInsti();'>
-                        <input id='domiciliopopup' type='text' placeholder='Domicilio' onchange='mensajeInsti();'>
                         <form>
-                            <select id='caracteristicapopup' name='caracteristica' class='select_popup' onchange='ddselectcaracteristicapopup();'>
-                                <option id='null' value='0';'>Caracteristica</option>
-                                <option id='caracteristica_optpopup' value='urbana'>Urbana</option>
-                                <option id='caracteristica_optpopup' value='rural'>Rural</option>
+                            <select id='idcontratopopup' name='idcontrato' class='select_popup' onchange='mensajeAdmin();'>
+                                <option id='null' value='0';'>ID Contrato</option>
+                                ".$AdminContratos."
                             </select>
                         </form>
                         <form>
-                            <select id='financiamientopopup' name='financiamiento' class='select_popup' onchange='ddselectfinanciamientopopup();'>
-                                <option id='null' value='0';'>Financiamiento</option>
-                                <option id='financiamiento_optpopup' value='publica'>Publica</option>
-                                <option id='financiamiento_optpopup' value='privada no confesional'>Privada no confesional</option>
-                                <option id='financiamiento_optpopup' value='privada confesional'>Privada confesional</option>
+                            <select id='estatuspopup' name='estatus' class='select_popup' onchange='mensajeAdmin();'>
+                                <option id='null' value='0';'>Estatus</option>
+                                ".$AdminEstatus."
                             </select>
                         </form>
-                        <form>
-                            <select id='riesgoeducativopopup' name='riesgoeducativo' class='select_popup' onchange='ddselectriesgoeducativopopup();'>
-                                <option id='null' value='0';'>Riesgo Educativo</option>
-                                <option id='riesgoeducativo_optpopup' value='bajo'>Bajo</option>
-                                <option id='riesgoeducativo_optpopup' value='medio'>Medio</option>
-                                <option id='riesgoeducativo_optpopup' value='alto'>Alto</option>
-                            </select>
-                        </form>
-                        <form>
-                            <select id='programaasistenciapopup' name='programaasistencia' class='select_popup' onchange='ddselectprogramaasistenciapopup();'>
-                                <option id='null' value='0';'>Programa de Asistencia</option>
-                                <option id='programaasistencia_optpopup' value='Si'>Si</option>
-                                <option id='programaasistencia_optpopup' value='No'>No</option>
-                            </select>
-                        </form>
-                    ";
+                        <input id='nombrepopup' type='text' placeholder='Nombre' onchange='mensajeAdmin();'>
+                        <input id='apellidopopup' type='text' placeholder='Apellido' onchange='mensajeAdmin();'>
+                        <input id='correopopup' type='email' placeholder='Correo' onchange='mensajeAdmin();'>
+                    </div>
+                    <div class='imput2'>";
 
                     $htmlAdmin2="
                     
@@ -567,11 +569,24 @@ if(isset($_POST['id'])):
                                 <option id='null' value='0';'>Ciudad</option>
                             </select>
                         </form>
-                        <a id='btnInsti' class='btn-submit' onclick='suscribeInsti();' style='cursor: not-allowed;'>Suscribirse</a>
+                        <form>
+                            <select id='institucionpopup' name='institucion' class='select_popup' onchange='ddselectinstitucionpopup();'>
+                                <option id='null' value='0';'>Institucion</option>
+                            </select>
+                        </form>
                     </div>
-                    <p class='mensaje' id='mensajeInsti'></p>
+                        <div class='imput3' style='padding-top: 30px;'>
+                        <input id='passonepopup' type='password' placeholder='Password' onchange='mensajeAdmin();'>
+                    </div>
+                        <div class='imput4' style='padding-top: 30px;'>
+                        <input id='passtwopopup' type='password' placeholder='Reingrese Password' onchange='mensajeAdmin();'>
+                    </div>
+                  
+                </div>
+                <a id='btnAdmin' class='btn-submit' onclick='suscribeAdmin();' style='cursor: not-allowed;'>Suscribirse</a>
+                
             </div>
-            
+            <p class='mensaje' id='mensajeAdmin'></p>
         </form>
         ";
     }

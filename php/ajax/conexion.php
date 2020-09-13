@@ -18,6 +18,14 @@
             return false;
         }
 
+        //INSERTAR NO NULO
+        public function insertar_nonulo($tabla, $datos){
+            $resultado =    $this->conexion->query("INSERT INTO $tabla VALUES ($datos)") or die($this->conexion->error);
+            if($resultado)
+                return true;
+            return false;
+        }
+
         //BORRAR
         public function borrar($tabla, $condicion){    
             $resultado  =   $this->conexion->query("DELETE FROM $tabla WHERE $condicion") or die($this->conexion->error);

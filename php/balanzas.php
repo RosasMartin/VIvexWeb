@@ -48,6 +48,12 @@
     
     <!-- PopUp -->
     <script type="text/javascript" src="../js/popup.js"></script>
+    
+    
+	<link rel="stylesheet" type="text/css" href="../css/component.css" />
+	<!-- remove this if you use Modernizr -->
+	<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+	
 
     <!-- Mlutiple Select library -->
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
@@ -59,6 +65,7 @@
     
     <link rel="stylesheet" href="../css/balanzas.css">
     
+
     
 </head>
 
@@ -109,7 +116,7 @@
 <?php 
 require "./ajax/conexion.php";
 $user=new vivexDB();
-
+$files="";
 ?>
 
 
@@ -648,6 +655,33 @@ $user=new vivexDB();
                             //console.log(parametrospaises);
                             //console.log("mapa");
                             show_popup();
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+                }
+
+                //Agregar Alumnos
+                if(clicked_id=="Alumn"){
+                    $.ajax({
+                        data: { 'id':clicked_id},
+                        url:   './ajax/ajax_popup_add_alumnos.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
+
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            
+                            show_popup();
+                            
                             
                         },
                         error:function(){
