@@ -116,7 +116,12 @@ if(isset($_POST['id_pais'])||isset($_POST['id_provincia'])||isset($_POST['id_ciu
 
                 
 
-               
+                function info(clicked_id){
+                    //alert('info:'+clicked_id);
+                    open_popup('info'+clicked_id)
+                }
+
+                
             </script>
             
             ";
