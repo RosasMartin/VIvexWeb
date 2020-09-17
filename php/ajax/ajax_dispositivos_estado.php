@@ -15,22 +15,22 @@ if(isset($_POST['id_pais'])||isset($_POST['id_provincia'])||isset($_POST['id_ciu
 
     $u="";
     if($_POST['id_provincia']=="null"&&$_POST['id_pais']!="null"){
-        $u=$user->buscar("dispositivos",'paises_id_pais in ('.$_POST['id_pais'].')');
+        $u=$user->buscar("dispositivos",'paises_id_pais in ('.$_POST['id_pais'].') AND activo="1"');
     }
     if($_POST['id_ciudad']=="null"&&$_POST['id_provincia']!="null"){
-        $u=$user->buscar("dispositivos",'provincias_id_provincia in ('.$_POST['id_provincia'].')');
+        $u=$user->buscar("dispositivos",'provincias_id_provincia in ('.$_POST['id_provincia'].') AND activo="1"');
     }
     if($_POST['id_institucion']=="null"&&$_POST['id_ciudad']!="null"){
-        $u=$user->buscar("dispositivos",'ciudades_id_ciudad in ('.$_POST['id_ciudad'].')');
+        $u=$user->buscar("dispositivos",'ciudades_id_ciudad in ('.$_POST['id_ciudad'].') AND activo="1"');
     }
     if($_POST['id_institucion']!="null"){
-        $u=$user->buscar("dispositivos",'id_institucion in ('.$_POST['id_institucion'].')');
+        $u=$user->buscar("dispositivos",'id_institucion in ('.$_POST['id_institucion'].') AND activo="1"');
     }
     if($_POST['id_pais']=="null"&&$_POST['id_provincia']=="null"&&$_POST['id_ciudad']=="null"&&$_POST['id_institucion']=="null"){
         $u=="";
     }
     if($_POST['id_contrato']!="null"){
-        $u=$user->buscar("dispositivos",'id_contrato in ('.$_POST['id_contrato'].')');
+        $u=$user->buscar("dispositivos",'id_contrato in ('.$_POST['id_contrato'].') AND activo="1"');
     }
     $html="";
     $html2="";

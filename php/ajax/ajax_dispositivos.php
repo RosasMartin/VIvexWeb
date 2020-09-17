@@ -18,22 +18,22 @@ if(isset($_POST['id_pais'])||isset($_POST['id_provincia'])||isset($_POST['id_ciu
     $e="";
     $a="";
     if($_POST['id_provincia']=="null"&&$_POST['id_pais']!="null"){
-        $u=$user->buscar("dispositivos",'paises_id_pais in ('.$_POST['id_pais'].')');
+        $u=$user->buscar("dispositivos",'paises_id_pais in ('.$_POST['id_pais'].') AND activo="1"');
     }
     if($_POST['id_ciudad']=="null"&&$_POST['id_provincia']!="null"){
-        $u=$user->buscar("dispositivos",'provincias_id_provincia in ('.$_POST['id_provincia'].')');
+        $u=$user->buscar("dispositivos",'provincias_id_provincia in ('.$_POST['id_provincia'].') AND activo="1"');
     }
     if($_POST['id_institucion']=="null"&&$_POST['id_ciudad']!="null"){
-        $u=$user->buscar("dispositivos",'ciudades_id_ciudad in ('.$_POST['id_ciudad'].')');
+        $u=$user->buscar("dispositivos",'ciudades_id_ciudad in ('.$_POST['id_ciudad'].') AND activo="1"');
     }
     if($_POST['id_institucion']!="null"){
-        $u=$user->buscar("dispositivos",'id_institucion in ('.$_POST['id_institucion'].')');
+        $u=$user->buscar("dispositivos",'id_institucion in ('.$_POST['id_institucion'].') AND activo="1"');
     }
     if($_POST['id_pais']=="null"&&$_POST['id_provincia']=="null"&&$_POST['id_ciudad']=="null"&&$_POST['id_institucion']=="null"){
         $u=="";
     }
     if($_POST['id_contrato']!="null"){
-        $u=$user->buscar("dispositivos",'id_contrato in ('.$_POST['id_contrato'].')');
+        $u=$user->buscar("dispositivos",'id_contrato in ('.$_POST['id_contrato'].') AND activo="1"');
     }
     $html="";
     $estado="";
@@ -46,7 +46,7 @@ if(isset($_POST['id_pais'])||isset($_POST['id_provincia'])||isset($_POST['id_ciu
    date_default_timezone_set('America/Argentina/Buenos_Aires');
 
     if($u!=""){  
-        
+        $check_count=0;
         foreach ($u as $key => $value){
             $mediciones=0;
             //$html.="<option id='ciud_opt' value='".$value['id_ciudad']."'>".$value['ciudad']."</option>";
@@ -72,25 +72,29 @@ if(isset($_POST['id_pais'])||isset($_POST['id_provincia'])||isset($_POST['id_ciu
             
             
             $html.="<div class='item-disp'>
-            <input type='checkbox' class='chek-disp'>
+            <input id='check_".$value['id_dispositivo']."' name='check_opt' type='checkbox' class='chek-disp' onchange=''>
             <p>".$value['id_dispositivo']."</p>
             <p>".$value['id_institucion']."</p>
             <p>".$value['id_contrato']."</p>
             <p>".$estado."</p>
             <p>$mediciones</p>
             <p>".$fecha."</p>
-            <a href='#' id=".$value['id_dispositivo']." edit class='icon-disp' onclick='open_popup(".strval($value['id_dispositivo']).");'><img id=".$value['id_dispositivo']." class='icon_datos' src='../img/editar.png' alt=''></a>
-            <a href='#' class='icon-disp'><img class='icon_datos' src='../img/informacion.png' alt=''></a>
-            <a href='#' id=".$value['id_hardware']." class='icon-disp'><img id=".$value['id_dispositivo']." class='icon_datos' src='../img/bloquear.png' alt='' onClick='block(this.id)'></a>
-            <a href='#' class='icon-disp'><img class='icon_datos' src='../img/basura.png' alt=''></a>
+            <a href='#' class='icon-disp 'onClick='info(".strval($value['id_dispositivo']).")'><img class='icon_datos' src='../img/informacion.png' alt=''></a>
+            <a href='#' id=".$value['id_hardware']." class='icon-disp'><img id=".strval($value['id_dispositivo'])." class='icon_datos' src='../img/bloquear.png' alt='' onClick='block(".strval($value['id_dispositivo']).")'></a>
+            <a href='#' class='icon-disp' onClick='borrar(".strval($value['id_dispositivo']).")'><img class='icon_datos' src='../img/basura.png' alt=''></a>
             </div>
+            
             <script type='text/javascript'>
 
                 //verificamos pago 
-                if(".$value['pago']."=='1'){
-                    document.getElementById(".$value['id_dispositivo'].").src = '../img/bloquear.png';
-                }else{
-                    document.getElementById(".$value['id_dispositivo'].").src = '../img/bloqueado.png';
+                
+                if(".$value['pago']."==1){
+                    
+                    document.getElementById(".strval($value['id_dispositivo']).").src = '../img/bloquear.png';
+                }
+                if(".$value['pago']."==0){
+                    
+                    document.getElementById(".strval($value['id_dispositivo']).").src = '../img/bloqueado.png';
                 }
 
                 function block(clicked_id)
@@ -110,12 +114,13 @@ if(isset($_POST['id_pais'])||isset($_POST['id_provincia'])||isset($_POST['id_ciu
                 
                 }
 
-                function edit(clicked_id){
-                   
-                }
+                
+
+               
             </script>
             
             ";
+            $check_count++;
         }
     }
     echo $html;

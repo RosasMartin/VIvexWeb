@@ -329,6 +329,28 @@ $files="";
             });
         }
 
+        function borrar_disp(clicked_id){ //id_hardware
+            console.log("ajax dispositivos");           
+            $.ajax({
+                data: { 'id_dispositivo':clicked_id},
+                url:   './ajax/ajax_dispositivos_delete.php',
+                type:  'POST',
+                beforeSend: function () {
+                //console.log("Enviando");
+                    
+                },
+                success:  function (response) { 
+
+                    dispositivos();
+                    dispositivos_mapa();
+                    dispositivos_estado();
+                },
+                error:function(){
+                    alert("error")
+                }
+            });
+        }
+
         function dispositivos_mapa(){ //id_hardware
             var parametrospaises= ""+$("#paises").val();
             var parametrosProvincias= ""+$("#provincias").val();
@@ -690,7 +712,48 @@ $files="";
                     });
                 }
 
+                //Editar balanza
+                if(clicked_id.includes("edit")){
+                    id=clicked_id.replace('edit', '');
+                    alert('edit:'+id);
+                }
+
+                //Informacion balanza
+                if(clicked_id.includes("info")){
+                    id=clicked_id.replace('info', '');
+                    //alert('info:'+id);
+
+                    $.ajax({
+                        data: { 'id':id},
+                        url:   './ajax/ajax_popup_info_balanza.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
+
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            
+                            show_popup();
+                            
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+
+                }
                 
+                //Borrar balanza
+                if(clicked_id.includes("borrar")){
+                    id=clicked_id.replace('borrar', '');
+                    alert('borrar:'+id);
+                }
             }
             //show popup
             function show_popup(){
@@ -1353,7 +1416,7 @@ $files="";
                 </div>
                 <div class="barra-dispositivos-datos">
                     <label class="container">
-                        <input type="checkbox">
+                        <input id="all_disp"type="checkbox" onclick="check_all();">
                         <span class="checkmark"></span>
                     </label>
                     <p>ID Balanza</p>
@@ -1362,8 +1425,8 @@ $files="";
                     <p>Estado</p>
                     <p>Trans. Totales</p>
                     <p>Ultim. Transacción</p>
-                    <a href="#"><img class="icon_datos" src="../img/anadir.png" alt=""></a>
-                    <a href="#"><img class="icon_datos" src="../img/bloquear.png" alt=""></a>
+                    <a href="#"><img class="icon_datos" src="../img/bloquear.png" alt="" onclick="block_select();"></a>
+                    <a href="#"><img class="icon_datos" src="../img/basura.png" alt="" onclick="delete_select();"></a>
                     <p> </p>
                     <p> </p>
                 </div>
@@ -1373,7 +1436,86 @@ $files="";
                 </div>
 
             </div>
+            <script type="text/javascript">
+                function check_all(){
 
+                    //alert('All_check');
+                    var all= document.getElementById('all_disp');
+                    var checkboxes = document.getElementsByName('check_opt');
+                    if(all.checked){
+                        for (var checkbox of checkboxes) {
+
+                            checkbox.checked = true;
+                        }
+                        //alert(i);
+                    }else{
+                        i=0;
+                        for (var checkbox of checkboxes) {
+
+                            checkbox.checked = false;
+                        }
+                        //alert(i);
+                    }
+                }
+
+                function block_select(clicked_id)
+                {
+                    var mensaje;
+                    var opcion = confirm('¿Está seguro de modificar el estado del dispositivo?');
+                    if (opcion == true) {
+                        mensaje = 'Has clickado OK';
+                        //document.getElementById(clicked_id).src = '../img/bloqueado.png';
+                        //bloquear_disp(clicked_id);
+                        var checkboxes = document.getElementsByName('check_opt');
+                        for (var checkbox of checkboxes) {
+                            if(checkbox.checked){
+                                var id=(checkbox.id).replace('check_', '');
+                                
+                                bloquear_disp(id);
+                            }
+                        }
+                    } else {
+                        mensaje = 'Has clickado Cancelar';
+                    }
+                
+                }
+
+                function delete_select(clicked_id)
+                {
+                    var mensaje;
+                    var opcion = confirm('¿Está seguro de modificar el estado del dispositivo?');
+                    if (opcion == true) {
+                        mensaje = 'Has clickado OK';
+                        //document.getElementById(clicked_id).src = '../img/bloqueado.png';
+                        //bloquear_disp(clicked_id);
+                        var checkboxes = document.getElementsByName('check_opt');
+                        for (var checkbox of checkboxes) {
+                            if(checkbox.checked){
+                                var id=(checkbox.id).replace('check_', '');
+                                
+                                borrar_disp(id);
+                            }
+                        }
+                    } else {
+                        mensaje = 'Has clickado Cancelar';
+                    }
+                
+                }
+
+                function borrar(clicked_id)
+                {
+                    var mensaje;
+                    var opcion = confirm('¿Está seguro de modificar el estado del dispositivo?');
+                    if (opcion == true) {
+                        mensaje = 'Has clickado OK';
+                        borrar_disp(clicked_id);
+                        
+                    } else {
+                        mensaje = 'Has clickado Cancelar';
+                    }
+                
+                }
+            </script>
         <!-- End Dispositivos -->
     </main>
     <!-- End MAin -->
