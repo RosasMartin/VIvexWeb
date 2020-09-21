@@ -147,6 +147,7 @@ input:not([type="submit"]) {
     background-color: #ffffff;
     margin-bottom: 2rem;
     border: none;
+    border: 1px solid #AD2900;
     border-radius: 2rem;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     outline: none;
@@ -170,6 +171,11 @@ input:not([type="submit"]) {
 
 button{
     outline: none;
+}
+
+.mensaje {
+    
+    color: #AD2900;
 }
 
 @media (min-width: 768px){
@@ -267,7 +273,7 @@ button{
         width: 20vw;
         background-color: #ffffff;
         margin-bottom: 2rem;
-        border: none;
+        border: 1px solid #AD2900;
         border-radius: 2rem;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         outline: none;
@@ -283,5 +289,10 @@ button{
         border-radius: 2rem;
         color: #ffffff;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    .mensaje {
+    
+        color: #AD2900;
     }
 }

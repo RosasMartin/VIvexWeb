@@ -12,25 +12,18 @@ if(isset($_POST['id'])):
 
 	require "conexion.php";
     $user = new vivexDB();
-
-    $u=$user->buscar("ciudades",'provincias_id_provincia in ('.$_POST['id'].')');
-    $html="";
-    echo "<option id='all_ciud' value='0' onchange='allciud();'>TODAS</option>";
-    
-         
-    foreach ($u as $key => $value)
-    $html.="<option id='ciud_opt' value='".$value['id_ciudad']."'>".$value['ciudad']."</option>";
-    
-    
-    echo $html;
-    if($html==""){
-        echo "
-        <script>
-            change_ciudad();
-        </script>
-        ";
-    }
-    	
+    if($_POST['id']!="null"){
+        $u=$user->buscar("ciudades",'provincias_id_provincia in ('.$_POST['id'].')');
+        $html="";
+        if($u!=""){
+            echo "<option id='all_ciud' value='0' onchange='allciud();'>TODAS</option>";
+                
+            foreach ($u as $key => $value)
+            $html.="<option id='ciud_opt' value='".$value['id_ciudad']."'>".$value['ciudad']."</option>";
+        }
+        echo $html;
+        
+    }	
 endif;
 ?>
 <?php    
