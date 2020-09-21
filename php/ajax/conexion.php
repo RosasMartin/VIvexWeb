@@ -18,6 +18,14 @@
             return false;
         }
 
+        //INSERTAR NO NULO
+        public function insertar_nonulo($tabla, $datos){
+            $resultado =    $this->conexion->query("INSERT INTO $tabla VALUES ($datos)") or die($this->conexion->error);
+            if($resultado)
+                return true;
+            return false;
+        }
+
         //BORRAR
         public function borrar($tabla, $condicion){    
             $resultado  =   $this->conexion->query("DELETE FROM $tabla WHERE $condicion") or die($this->conexion->error);
@@ -64,5 +72,13 @@
                 return $resultado->fetch_all(MYSQLI_ASSOC);
             return false;
         }  
+
+        //BUSCAR Institucion
+        public function buscar_valor($tabla, $valor, $condicion){
+            $resultado = $this->conexion->query("SELECT $valor FROM $tabla WHERE $condicion") or die($this->conexion->error);
+            if($resultado)
+                return $resultado->fetch_all(MYSQLI_ASSOC);
+            return false;
+        } 
     }
 ?>

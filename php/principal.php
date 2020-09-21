@@ -86,7 +86,7 @@
         $provincia = $_SESSION['provincia'];
         $ciudad = $_SESSION['ciudad'];
 
-        session_destroy();
+        //session_destroy();
 
         if($nombre==null){
             session_destroy();
@@ -402,8 +402,115 @@
             <hr>
             <div id="sitios" class="sitios">
                 <!-- Paises -->
+                <form class="demo-example">
+                    <select id="paises" name="paises" multiple onchange="ddselect6();">
+                        <option id="all_pais" value="0" onchange="allpais();">TODAS</option>
+                        <?php 
+                            if($status=="90"||$status=="80"){
+                                $paises=$user->buscar("paises","1");
+                            }else{
+                                $paises=$user->buscar("paises","id_pais=".$paisincia);
+                            }
+                            foreach($paises as $paises):
+                        ?>
+                        <option id="pais_opt" value="<?php echo $paises['id_pais'] ?>"><?php echo $paises['nombre_pais'] ?></option>
+                        <?php 
+                            endforeach;
+                        ?>
 
-                
+                        
+                            
+                    </select>
+                </form>
+                <script type="text/javascript">
+                    $(function() {
+                        $('#paises').multiSelect({
+                            'noneText': 'paises',
+
+                        });
+                    });
+
+                    function allpais(){
+                        console.log("Todas las paises");
+                        var paisall = document.getElementById('all_pais');
+                        var allpais = $("#paises").val();
+
+                        if(paisall.selected==true){
+                            
+                            $('#paises option').prop('selected', true);
+                            document.getElementById('paises').dispatchEvent(new Event('change'));
+                            //$('#paises option').attr("checked");
+                            consultarDatos(); 
+                            }
+                            else{
+                                $('#paises option').prop('selected', false);
+                                document.getElementById('paises').dispatchEvent(new Event('change'));
+                                consultarDatos();  
+                        }
+
+                        
+                        
+                    }
+
+                    function ddselect6() {
+                        var paisall = document.getElementById('all_pais');
+                        
+                            var select = $("#paises").val();
+                            
+                            
+                            var count = $("#paises :selected").length;
+                            //document.getElementById("show2").innerHTML = count;
+                            $(function() {
+                                $('#paises').multiSelect({
+                                    'allText': 'paises',
+
+                                });
+                            });
+
+                            var selected2 = [];
+                            for (var option of document.getElementById('paises').options) {
+                                if (option.selected) {
+                                    selected2.push(option.value);
+                                    //mostramos elementos seleccionados con el id= show
+                                    //document.getElementById("show").innerHTML = selected2;
+                                    
+                                    //Busqueda de ciudades de acuerdo a lo seleccionado en paises
+                                    
+                                    //console.log(selected2);
+                                    if(paisall.selected==false){
+                                        consultarDatos();
+                                    }
+
+                                }
+                                if ($("#paises :selected").length == 0) {
+                                    //document.getElementById("show").innerHTML = "-";
+                                }
+                                if(option.selected==false){
+                                    consultarDatos();
+                                }
+                            }
+                            
+                            var opt_pais = document.getElementById('pais_opt');
+
+                            if(opt_pais.selected){
+                                
+                                //$('#paises option').prop('selected', true);
+                                //document.getElementById('paises').dispatchEvent(new Event('change'));
+                                //$('#paises option').attr("checked");
+                                consultarDatos();
+                                }
+                                else{
+                                    //var paisall = document.getElementById('all_pais');
+                                    //$(paisall).prop('selected', false);
+                                    //paisall.dispatchEvent(new Event('change'));
+                                    if(paisall.selected==false){
+                                        consultarDatos();
+                                    }
+
+                            } 
+                        
+                    }
+                </script>
                 <!-- End Paises --> 
                 <!-- Provincias -->
                 <form class="demo-example">
@@ -988,7 +1095,7 @@
             <hr>
             <!-- Obtencion de Archivos -->
                 <div class="archivos">
-                    <p>Descargas</p>
+                    <!-- <p>Descargas</p> -->
                     <div class="enlaces">
                         <a href="#">
                             <img src="../img/pdf.png" alt="pdf icono">

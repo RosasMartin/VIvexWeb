@@ -1,7 +1,8 @@
 <?php
 echo "
 <form class='demo-example'>
-    <select id='instituciones' name='instituciones' multiple onchange='ddselect3();'>";
+    <select id='instituciones' name='instituciones' multiple onchange='ddselect3();'>
+    <option id='all_institucion' value='0' onchange='allinstitucion();'>TODAS</option>";
 ?>
 
 <?php 
@@ -16,7 +17,7 @@ if(isset($_POST['id'])):
     
          
         foreach ($u as $key => $value)
-        $html.="<option value='".$value['id_institucion']."'>".$value['colegio']."</option>";
+        $html.="<option id='institucion_opt' value='".$value['id_institucion']."'>".$value['colegio']."</option>";
         
         echo $html;
     	
