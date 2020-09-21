@@ -115,10 +115,45 @@ if(isset($_POST['provincias'])):
     }
 endif;
 
+if(isset($_POST['paises'])):
+    if($_POST['instituciones']=="null" && $_POST['ciudades']=="null" && $_POST['provincias']=="null"){
+        
+
+        if($_POST['masculino']!="" && $_POST['femenino']!=""){
+            $u=$user->buscar("alumnos",'pais_alumno in ('.$_POST['paises'].') AND edad >= '.$_POST['edadmin'].' AND edad <= '.$_POST['edadmax'].'');
+            $html="";
+        }
+        if($_POST['masculino']!="" && $_POST['femenino']==""){
+            $u=$user->buscar("alumnos",'pais_alumno in ('.$_POST['paises'].') AND genero = "M" AND edad >= '.$_POST['edadmin'].' AND edad <= '.$_POST['edadmax'].'');
+            $html="";
+        }
+        if($_POST['masculino']=="" && $_POST['femenino']!=""){
+            $u=$user->buscar("alumnos",'pais_alumno in ('.$_POST['paises'].') AND genero = "F" AND edad >= '.$_POST['edadmin'].' AND edad <= '.$_POST['edadmax'].'');
+            $html="";
+        }
+        
+        if($_POST["masculino"]!=""||$_POST["femenino"]!=""){    
+            foreach ($u as $key => $value)
+            $html.=$value['dni'].",";   
+            $dni=$html;
+            //$html.=$value['genero'].",";
+            //$generos=$html;
+        }
+        if($_POST["masculino"]!=""||$_POST["femenino"]!=""){    
+            foreach ($u as $key => $value)
+            $html2.=$value['genero'].",";
+            $generos=$html2;
+            
+        }
+        //echo "dni|";
+        //echo $html;
+        //echo "|";
+    }
+endif;
 
 
-if(isset($_POST['provincias'])):
-    if($_POST['instituciones']!="null" || $_POST['ciudades']!="null" || $_POST['provincias']!="null"){
+if(isset($_POST['paises'])):
+    if($_POST['instituciones']!="null" || $_POST['ciudades']!="null" || $_POST['provincias']!="null" || $_POST['paises']!="null"){
         
         
         

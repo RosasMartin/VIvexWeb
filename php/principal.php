@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vivex</title> 
     <!-- jQuery AJAX -->
-    <script src="jquery.js"></script>
+    <script src="../js/jquery.js"></script>
     
     <!-- Silider JQuery library and script-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
@@ -20,7 +20,7 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    <script src="jquery.ui.touch-punch.min.js"></script>
+    
     
     <!-- Seteo de caracterisicas de slider -->
     <script>
@@ -42,6 +42,8 @@
         
     } );
         
+   
+        
     </script>
     <!-- End Slider -->
 
@@ -49,6 +51,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
     <!-- End Chart.js -->
     
+    <!-- PopUp -->
+    <script type="text/javascript" src="../js/popup.js"></script>
+    
+    
+	<link rel="stylesheet" type="text/css" href="../css/component.css" />
+	
    
 
     <!-- Mlutiple Select library -->
@@ -85,12 +93,12 @@
         $pais = $_SESSION['pais'];
         $provincia = $_SESSION['provincia'];
         $ciudad = $_SESSION['ciudad'];
-
+        //echo "<script>console.log('$nombre'+' '+'$apellido'+' '+'$status'+' '+'$email'+' '+'$usuario'+' '+'$id_institucion'+' '+'$id_administrador'+' '+'$institucion'+' '+'$pais'+' '+'$provincia'+' '+'$ciudad');</script>";
         //session_destroy();
 
         if($nombre==null){
             session_destroy();
-            header("Location:../index.html");
+            header("Location:../index.php");
 
         }
         
@@ -111,11 +119,13 @@
         
 
 ?>
+
+
 <?php 
     require "./ajax/conexion.php";
     $user=new vivexDB();
-    
 ?>
+
 <!-- PHP END -->
 <body>
     <header class="header">
@@ -132,23 +142,26 @@
             <ul class="nav">
                 <li><a href="#">Configuraciones</a>
                     <ul>
-                        <li><a href="#">Agregar Administrador</a></li>
-                        <li><a href="#">Agregar Instituciones</a></li>
-                        <li><a href="#">Agregar Alumnos</a></li>
-                        <li><a href="balanzas.php" onclick="balanza();">Balanzas</a></li>
+                        <li><a href="#" id="Admin" onclick="open_popup(this.id);">Agregar Administrador</a></li>
+                        <li><a href="#" id="Insti" onclick="open_popup(this.id);">Agregar Instituciones</a></li>
+                        <li><a href="#" id="Alumn" onclick="open_popup(this.id);" style="visibility:visible;">Agregar Alumnos</a></li>
+                        <li><a href="balanzas.php" id="balanza"  style="visibility:visible;">Balanzas</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Búsqueda</a></li>
                 <li><a href="#">Mapas</a></li>
                 <li><a href="#">Comparativas</a></li>
-                <li><a href="../index.html" <?php session_destroy(); ?>;>Salir</a></li>
+                <li><a href="../index.php" <?php session_destroy(); ?>;>Salir</a></li>
             </ul>
         </div>
     </header>
-
+    
     <script> 
+        
+        
         function balanza(){
             <?php 
+                
                 session_start();
                 //creamos sesion para balanzas
                 
@@ -166,12 +179,181 @@
                 $_SESSION['pais'] = $pais;
                 $_SESSION['provincia'] = $provincia;
                 $_SESSION['ciudad'] = $ciudad;
+
+                
+                
+                
+                
             ?>
         }
     </script>
     
     <main>
+       
 
+        <!-- PopUp (Formularios) -->
+       
+        <div class="overlay" id="overlay">
+			<div class="popup" id="popup">
+           
+			</div>
+        </div>
+        <script type="text/javascript">
+           //ocultamos balanzas y agregar alumnos si no es usuario Vivex (90)
+            var estatus = <?php echo "$status"?>;
+            //console.log(estatus);
+            if(estatus!="90"){
+                
+                //ocultamos opciones de menu
+                document.getElementById('balanza').style.visibility= 'hidden';
+                document.getElementById('Alumn').style.visibility= 'hidden';
+            }
+
+            function open_popup(clicked_id){
+                //alert(clicked_id);
+                //llamada de ajax popup
+                //Ajax
+                //Agregar Administrador
+                if(clicked_id=="Admin"){
+                    $.ajax({
+                        data: { 'id':clicked_id},
+                        url:   './ajax/ajax_popup_add_admin.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
+
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            show_popup();
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+                }
+
+                //Agregar Institucion
+                if(clicked_id=="Insti"){
+                    $.ajax({
+                        data: { 'id':clicked_id},
+                        url:   './ajax/ajax_popup_add_insti.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
+
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            show_popup();
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+                }
+
+                //Agregar Alumnos
+                if(clicked_id=="Alumn"){
+                    $.ajax({
+                        data: { 'id':clicked_id},
+                        url:   './ajax/ajax_popup_add_alumnos.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
+
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            
+                            show_popup();
+                            
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+                }
+
+                //Editar balanza
+                if(clicked_id.includes("edit")){
+                    id=clicked_id.replace('edit', '');
+                    alert('edit:'+id);
+                }
+
+                //Informacion balanza
+                if(clicked_id.includes("info")){
+                    id=clicked_id.replace('info', '');
+                    //alert('info:'+id);
+
+                    $.ajax({
+                        data: { 'id':id},
+                        url:   './ajax/ajax_popup_info_balanza.php',
+                        type:  'POST',
+                        beforeSend: function () {
+                        //console.log("Enviando");
+                            
+                        },
+                        success:  function (response) { 
+
+                            $("#popup").html(response);
+                            //console.log("cambio");
+                            //console.log(parametrospaises);
+                            //console.log("mapa");
+                            
+                            show_popup();
+                            
+                            
+                        },
+                        error:function(){
+                            alert("error")
+                        }
+                    });
+
+                }
+                
+                //Borrar balanza
+                if(clicked_id.includes("borrar")){
+                    id=clicked_id.replace('borrar', '');
+                    alert('borrar:'+id);
+                }
+            }
+            //show popup
+            function show_popup(){
+                var overlay = document.getElementById('overlay'),
+                popup = document.getElementById('popup'),
+                btnCerrarPopup = document.getElementById('btn-cerrar-popup');
+
+                btnCerrarPopup.addEventListener('click', function(e){
+                    e.preventDefault();
+                    overlay.classList.remove('active');
+                    popup.classList.remove('active');
+                });
+
+                overlay.classList.add('active');
+                popup.classList.add('active');
+            }
+
+            
+        </script>
+        <!-- End PopUp -->
+
+        
         <!-- Controles -->
         <div class="controles">
             <!--<p style="margin-top: 2vh;">Filtros de Búsqueda</p>-->
@@ -406,11 +588,9 @@
                     <select id="paises" name="paises" multiple onchange="ddselect6();">
                         <option id="all_pais" value="0" onchange="allpais();">TODAS</option>
                         <?php 
-                            if($status=="90"||$status=="80"){
+                            
                                 $paises=$user->buscar("paises","1");
-                            }else{
-                                $paises=$user->buscar("paises","id_pais=".$paisincia);
-                            }
+                            
                             foreach($paises as $paises):
                         ?>
                         <option id="pais_opt" value="<?php echo $paises['id_pais'] ?>"><?php echo $paises['nombre_pais'] ?></option>
@@ -484,6 +664,29 @@
                                 }
                                 if ($("#paises :selected").length == 0) {
                                     //document.getElementById("show").innerHTML = "-";
+                                    
+                                    var parametrosPaises= ""+$("#paises").val();
+                                    //alert(parametrosPaises);
+                                    $.ajax({
+                                        data: {'id':parametrosPaises},
+                                        url:   './ajax/ajax_provincias.php',
+                                        type:  'POST',
+                                        beforeSend: function () {
+                                            //console.log("Enviando");
+                                            
+                                        },
+                                        success:  function (response) { 
+
+                                            $("#provincias_recargar").html(response);
+                                            //console.log("cambio");
+                                            //console.log(parametrosProvincias);
+                                            //console.log(response);
+                                            
+                                        },
+                                        error:function(){
+                                            alert("error")
+                                        }
+                                    });
                                 }
                                 if(option.selected==false){
                                     consultarDatos();
@@ -513,27 +716,17 @@
                 </script>
                 <!-- End Paises --> 
                 <!-- Provincias -->
-                <form class="demo-example">
-                    <select id="provincias" name="provincias" multiple onchange="ddselect();">
-                        <option id="all_prov" value="0" onchange="allprov();">TODAS</option>
-                        <?php 
-                            if($status=="90"||$status=="80"){
-                                $provincias=$user->buscar("provincias","1");
-                            }else{
-                                $provincias=$user->buscar("provincias","id_provincia=".$provincia);
-                            }
-                            foreach($provincias as $provincias):
-                        ?>
-                        <option id="prov_opt" value="<?php echo $provincias['id_provincia'] ?>"><?php echo $provincias['provincia'] ?></option>
-                        <?php 
-                            endforeach;
-                        ?>
-
-                        
+                <div id="provincias_recargar">
+                    <form class="demo-example">
+                        <select id="provincias" name="provincias" multiple onchange="ddselect();">
                             
-                    </select>
-                </form>
-                
+                            
+
+                            
+                                
+                        </select>
+                    </form>
+                </div>
                 
                 <script type="text/javascript">
                     $(function() {
@@ -570,7 +763,7 @@
                         
                             var select = $("#provincias").val();
                             
-                            
+                            //alert(select);
                             var count = $("#provincias :selected").length;
                             //document.getElementById("show2").innerHTML = count;
                             $(function() {
@@ -597,6 +790,30 @@
                                 }
                                 if ($("#provincias :selected").length == 0) {
                                     //document.getElementById("show").innerHTML = "-";
+                                    
+                                    var parametrosProvincias= ""+$("#provincias").val();
+                                    //alert("provincia");
+                                    $.ajax({
+                                        data: {'id':parametrosProvincias},
+                                        url:   './ajax/ajax_ciudades.php',
+                                        type:  'POST',
+                                        beforeSend: function () {
+                                            //console.log("Enviando");
+                                            
+                                        },
+                                        success:  function (response) { 
+
+                                            $("#ciudades_recargar").html(response);
+                                            //console.log("cambio");
+                                            //console.log(parametrosProvincias);
+                                            //console.log(response);
+                                            
+                                        },
+                                        error:function(){
+                                            alert("error")
+                                        }
+                                    });
+
                                 }
                                 if(option.selected==false){
                                     consultarDatos();
@@ -610,9 +827,34 @@
                                 //$('#provincias option').prop('selected', true);
                                 //document.getElementById('provincias').dispatchEvent(new Event('change'));
                                 //$('#provincias option').attr("checked");
+
+                                var parametrosProvincias= ""+$("#provincias").val();
+                                //alert("provincia");
+                                $.ajax({
+                                    data: {'id':parametrosProvincias},
+                                    url:   './ajax/ajax_ciudades.php',
+                                    type:  'POST',
+                                    beforeSend: function () {
+                                        //console.log("Enviando");
+                                        
+                                    },
+                                    success:  function (response) { 
+
+                                        $("#ciudades_recargar").html(response);
+                                        //console.log("cambio");
+                                        //console.log(parametrosProvincias);
+                                        //console.log(response);
+                                        
+                                    },
+                                    error:function(){
+                                        alert("error")
+                                    }
+                                });
+
                                 consultarDatos();
                                 }
                                 else{
+
                                     //var provall = document.getElementById('all_prov');
                                     //$(provall).prop('selected', false);
                                     //provall.dispatchEvent(new Event('change'));
@@ -696,6 +938,29 @@
                             }
                             if ($("#ciudades :selected").length == 0) {
                                 //document.getElementById("show").innerHTML = "-";
+
+                                //console.log("ciudades");
+                                var parametrosCiudades= ""+$("#ciudades").val();
+                                
+                                $.ajax({
+                                    data: {'id':parametrosCiudades},
+                                    url:   './ajax/ajax_instituciones.php',
+                                    type:  'POST',
+                                    beforeSend: function () {
+                                        //console.log("Enviando");
+                                        
+                                    },
+                                    success:  function (response) {       
+                                        $("#intituciones_recargar").html(response);
+                                        //console.log("cambio");
+                                        //console.log(parametrosCiudades);
+                                        //console.log(response);
+                                        
+                                    },
+                                    error:function(){
+                                        alert("error")
+                                    }
+                                });
                             }
                             if(option.selected==false){
                                     consultarDatos();
@@ -765,6 +1030,27 @@
                 </script>    
                 </div>
                 <script>
+                    function allinstitucion(){
+                        console.log("Todas las instituciones");
+                        var instiall = document.getElementById('all_institucion');
+                        var allinsti = $("#instituciones").val();
+
+                        if(instiall.selected==true){
+                            
+                            $('#instituciones option').prop('selected', true);
+                            document.getElementById('instituciones').dispatchEvent(new Event('change'));
+                            //$('#provincias option').attr("checked");
+                            consultarDatos(); 
+                            }
+                            else{
+                                $('#instituciones option').prop('selected', false);
+                                document.getElementById('instituciones').dispatchEvent(new Event('change'));
+                                
+                                consultarDatos();  
+                        }
+                        
+                    }
+
                     function ddselect3() {
                         var count = $("#instituciones :selected").length;
                         //document.getElementById("show2").innerHTML = count;
@@ -794,12 +1080,13 @@
                     }
                 </script>
                 <!-- End Instituciones -->
+
                 <script type="text/javascript">
                     $(document).ready(function(e){
                         $("#provincias").change(function(){
                             //console.log("provincias");
                             var parametrosProvincias= ""+$("#provincias").val();
-                            
+                            alert("provincia");
                             $.ajax({
                                 data: {'id':parametrosProvincias},
                                 url:   './ajax/ajax_ciudades.php',
@@ -811,6 +1098,37 @@
                                 success:  function (response) { 
 
                                     $("#ciudades_recargar").html(response);
+                                    //console.log("cambio");
+                                    //console.log(parametrosProvincias);
+                                    //console.log(response);
+                                    
+                                },
+                                error:function(){
+                                    alert("error")
+                                }
+                            });
+                   
+                        })
+                    })
+                </script>
+                 
+                <script type="text/javascript">
+                    $(document).ready(function(e){
+                        $("#paises").change(function(){
+                            
+                            var parametrosPaises= ""+$("#paises").val();
+                            //alert('paises');
+                            $.ajax({
+                                data: {'id':parametrosPaises},
+                                url:   './ajax/ajax_provincias.php',
+                                type:  'POST',
+                                beforeSend: function () {
+                                    //console.log("Enviando");
+                                    
+                                },
+                                success:  function (response) { 
+
+                                    $("#provincias_recargar").html(response);
                                     //console.log("cambio");
                                     //console.log(parametrosProvincias);
                                     //console.log(response);
@@ -900,7 +1218,7 @@
                             rn="rn";
                         }
 
-
+                    var parametrosPaises= ""+$("#paises").val();
                     var parametrosProvincias= ""+$("#provincias").val();
                     var parametrosCiudades= ""+$("#ciudades").val();
                     var parametrosInstituciones= ""+$("#instituciones").val();
@@ -924,6 +1242,10 @@
                     console.log(rdm);
                     console.log(rds);
                     console.log(rn);
+                    
+                    
+                    console.log("paises:");
+                    console.log(parametrosPaises);
 
                     console.log("provincias:");
                     console.log(parametrosProvincias);
@@ -957,7 +1279,7 @@
                         
                             //Busqueda de Alumnos    
                             $.ajax({
-                                data: {'instituciones': parametrosInstituciones, 'ciudades': parametrosCiudades, 'provincias': parametrosProvincias, 'edadmin':edadMin, 'edadmax':edadMax, 'masculino':masculino, 'femenino':femenino, 'ro1': ro1, 'ro2': ro2, 'ro3': ro3, 'rs': rs, 'rda': rda, 'rdm': rdm, 'rds': rds, 'rn': rn },
+                                data: {'paises': parametrosPaises,'instituciones': parametrosInstituciones, 'ciudades': parametrosCiudades, 'provincias': parametrosProvincias, 'edadmin':edadMin, 'edadmax':edadMax, 'masculino':masculino, 'femenino':femenino, 'ro1': ro1, 'ro2': ro2, 'ro3': ro3, 'rs': rs, 'rda': rda, 'rdm': rdm, 'rds': rds, 'rn': rn },
                                 url:   './ajax/ajax_Alumnos.php',
                                 type:  'POST',
                                 beforeSend: function () {
@@ -998,7 +1320,7 @@
 
                         //tendencias    
                         $.ajax({
-                            data: {'instituciones': parametrosInstituciones, 'ciudades': parametrosCiudades, 'provincias': parametrosProvincias, 'edadmin':edadMin, 'edadmax':edadMax, 'masculino':masculino, 'femenino':femenino, 'ro1': ro1, 'ro2': ro2, 'ro3': ro3, 'rs': rs, 'rda': rda, 'rdm': rdm, 'rds': rds, 'rn': rn },
+                            data: {'paises': parametrosPaises,'instituciones': parametrosInstituciones, 'ciudades': parametrosCiudades, 'provincias': parametrosProvincias, 'edadmin':edadMin, 'edadmax':edadMax, 'masculino':masculino, 'femenino':femenino, 'ro1': ro1, 'ro2': ro2, 'ro3': ro3, 'rs': rs, 'rda': rda, 'rdm': rdm, 'rds': rds, 'rn': rn },
                             url:   './ajax/ajax_mediciones.php',
                             type:  'POST',
                             beforeSend: function () {
@@ -1065,7 +1387,7 @@
 
                         //cantidad de mediciones 
                         $.ajax({
-                            data: {'instituciones': parametrosInstituciones, 'ciudades': parametrosCiudades, 'provincias': parametrosProvincias, 'edadmin':edadMin, 'edadmax':edadMax, 'masculino':masculino, 'femenino':femenino, 'ro1': ro1, 'ro2': ro2, 'ro3': ro3, 'rs': rs, 'rda': rda, 'rdm': rdm, 'rds': rds, 'rn': rn },
+                            data: {'paises': parametrosPaises,'instituciones': parametrosInstituciones, 'ciudades': parametrosCiudades, 'provincias': parametrosProvincias, 'edadmin':edadMin, 'edadmax':edadMax, 'masculino':masculino, 'femenino':femenino, 'ro1': ro1, 'ro2': ro2, 'ro3': ro3, 'rs': rs, 'rda': rda, 'rdm': rdm, 'rds': rds, 'rn': rn },
                             url:   './ajax/ajax_mediciones_totales.php',
                             type:  'POST',
                             beforeSend: function () {

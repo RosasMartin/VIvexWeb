@@ -100,6 +100,31 @@ if(isset($_POST['provincias'])):
     }
 endif;
 
+if(isset($_POST['paises'])):
+    if($_POST['instituciones']=="null" && $_POST['ciudades']=="null" && $_POST['provincias']=="null"){
+        
+
+        if($_POST['masculino']!="" && $_POST['femenino']!=""){
+            $u=$user->buscar("alumnos",'pais_alumno in ('.$_POST['paises'].') AND edad >= '.$_POST['edadmin'].' AND edad <= '.$_POST['edadmax'].'');
+            $html="";
+        }
+        if($_POST['masculino']!="" && $_POST['femenino']==""){
+            $u=$user->buscar("alumnos",'pais_alumno in ('.$_POST['paises'].') AND genero = "M" AND edad >= '.$_POST['edadmin'].' AND edad <= '.$_POST['edadmax'].'');
+            $html="";
+        }
+        if($_POST['masculino']=="" && $_POST['femenino']!=""){
+            $u=$user->buscar("alumnos",'pais_alumno in ('.$_POST['paises'].') AND genero = "F" AND edad >= '.$_POST['edadmin'].' AND edad <= '.$_POST['edadmax'].'');
+            $html="";
+        }
+        
+        if($_POST["masculino"]!=""||$_POST["femenino"]!=""){    
+            foreach ($u as $key => $value)
+            $html.=$value['dni'].",";   
+            $dni=$html;
+        }
+        
+    }
+endif;
 //$MesesAtras_1 = time() - (1 * 4 * 7 * 24 * 60 * 60);
 //echo '1 Meses Atras: '. date('m', $MesesAtras_1) ."\n";
 //$MesesAtras_2 = time() - (2 * 4 * 7 * 24 * 60 * 60);
@@ -130,7 +155,7 @@ endif;
 //echo '6 Meses Atras: '.$seisMesesAtras."\n";
 
 
-if(isset($_POST['provincias'])):
+if(isset($_POST['paises'])):
     if($dni!=""){
         $dni = substr($dni, 0, -1);
         $alumnos = explode(",", $dni);

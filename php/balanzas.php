@@ -827,14 +827,11 @@ $files="";
                 <div class="contenido-busqueda">   
                     <!-- Paises -->
                     <form class="demo-example">
-                        <select id="paises" name="paises" multiple onchange="ddselect();">
+                        <select id="paises" name="paises" multiple onchange="ddselect6();">
                             <option id="all_pais" value="0" onchange="allpais();">TODOS</option>
                             <?php 
-                                if($status=="90"||$status=="80"){
                                     $paises=$user->buscar("paises","1");
-                                }else{
-                                    $paises=$user->buscar("paises","id_pais=".$paisincia);
-                                }
+                                
                                 foreach($paises as $paises):
                             ?>
                             <option id="pais_opt" value="<?php echo $paises['id_pais'] ?>"><?php echo $paises['nombre_pais'] ?></option>
@@ -876,7 +873,7 @@ $files="";
                             
                         }
 
-                        function ddselect() {
+                        function ddselect6() {
                             var paisall = document.getElementById('all_pais');
                             
                                 var select = $("#paises").val();
@@ -945,8 +942,8 @@ $files="";
                     <!-- provincias -->
                     <div id="provincias_recargar">
                         <form class="demo-example">
-                            <select id="provincias" name="provincias" multiple onchange="ddselect0();">
-                                <option id="all_provincia" value="0" onchange="allprovincia();">TODAS</option>
+                            <select id="provincias" name="provincias" multiple onchange="ddselect();">
+                                <option id="all_prov" value="0" onchange="allprov();">TODAS</option>
                                 
 
                                 
@@ -961,10 +958,10 @@ $files="";
 
                             });
                         });
-                        
-                        function allprovincia(){
-                            console.log("Todas las provincias");
-                            var provinciaall = document.getElementById('all_provincia');
+                       
+                        function allprov(){
+                            //alert("Todas las provincias");
+                            var provinciaall = document.getElementById('all_prov');
                             var allprovincia = $("#provincias").val();
 
                             if(provinciaall.selected==true){
@@ -984,11 +981,12 @@ $files="";
                             
                         }
 
-                        function ddselect0() {
-                            var provinciaall = document.getElementById('all_provincia');
+                        function ddselect() {
+                            var provinciaall = document.getElementById('all_prov');
                             
                             var select = $("#provincias").val();
                             
+                            //alert(select);
                             
                             var count = $("#provincias :selected").length;
                             //document.getElementById("show2").innerHTML = count;
@@ -999,16 +997,16 @@ $files="";
                                 });
                             });
 
-                            var selected2 = [];
+                            var selected9 = [];
                             for (var option of document.getElementById('provincias').options) {
                                 if (option.selected) {
-                                    selected2.push(option.value);
+                                    selected9.push(option.value);
                                     //mostramos elementos seleccionados con el id= show
-                                    //document.getElementById("show").innerHTML = selected2;
+                                    //document.getElementById("show").innerHTML = selected9;
                                     
                                     //Busqueda de ciudades de acuerdo a lo seleccionado en provincias
                                     console.log("provincias seleccionadas: ");
-                                    console.log(selected2);
+                                    console.log(selected9);
                                     if(provinciaall.selected==false){
                                         //consultarDatos();
                                     }
@@ -1022,7 +1020,7 @@ $files="";
                                 }
                             }
                             
-                            var opt_provincia = document.getElementById('provincia_opt');
+                            var opt_provincia = document.getElementById('prov_opt');
 
                             if(opt_provincia.selected){
                                 
